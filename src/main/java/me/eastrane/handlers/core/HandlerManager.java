@@ -33,6 +33,13 @@ public class HandlerManager {
         handlers.put(handler.getClass().getSimpleName(), handler);
     }
 
+    /**
+     * Rechecks the registration status of all handlers.
+     *
+     * @param worldTime The current world time.
+     * @return A map containing the names of handlers and their registration status changes.
+     *         If a handler's registration status does not change, it is not included in the map.
+     */
     public Map<String, Boolean> recheckHandlers(long[] worldTime) {
         Map<String, Boolean> changes = new HashMap<>();
 
@@ -40,7 +47,7 @@ public class HandlerManager {
             String handlerName = handler.getClass().getSimpleName();
             if (handler.isRegistered()) {
                 if (!handler.shouldRegister(worldTime)) {
-                    if(handler.unregister()) {
+                    if (handler.unregister()) {
                         changes.put(handlerName, false);
                     }
                 }
@@ -55,12 +62,20 @@ public class HandlerManager {
         return changes;
     }
 
+    /**
+     * Unregisters all the handlers.
+     */
     public void unregisterHandlers() {
         for (BaseHandler handler : handlers.values()) {
             handler.unregister();
         }
     }
 
+    /**
+     * Retrieves a list of registered handler names.
+     *
+     * @return A list of registered handler names.
+     */
     public List<String> getRegisteredHandlers() {
         List<String> registeredHandlers = new ArrayList<>();
         for (BaseHandler handler : handlers.values()) {
@@ -71,6 +86,12 @@ public class HandlerManager {
         return registeredHandlers;
     }
 
+    /**
+     * Retrieves a handler by its name.
+     *
+     * @param name The name of the handler.
+     * @return The handler instance or null if not found.
+     */
     public BaseHandler getHandler(String name) {
         return handlers.get(name);
     }

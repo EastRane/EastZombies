@@ -28,6 +28,13 @@ public class ListenerManager {
         listeners.put(listener.getClass().getSimpleName(), listener);
     }
 
+    /**
+     * Rechecks the registration status of all listeners.
+     *
+     * @param worldTime The current world time.
+     * @return A map containing the names of listeners and their registration status changes.
+     *         If a listener's registration status does not change, it is not included in the map.
+     */
     public Map<String, Boolean> recheckListeners(long[] worldTime) {
         Map<String, Boolean> changes = new HashMap<>();
 
@@ -50,12 +57,20 @@ public class ListenerManager {
         return changes;
     }
 
+    /**
+     * Unregisters all the listeners.
+     */
     public void unregisterListeners() {
         for (BaseListener listener : listeners.values()) {
             listener.unregister();
         }
     }
 
+    /**
+     * Retrieves a list of registered listener names.
+     *
+     * @return A list of registered listener names.
+     */
     public List<String> getRegisteredListeners() {
         List<String> registeredListeners = new ArrayList<>();
         for (BaseListener listener : listeners.values()) {
@@ -66,6 +81,12 @@ public class ListenerManager {
         return registeredListeners;
     }
 
+    /**
+     * Retrieves a listener by its name.
+     *
+     * @param listenerName The name of the listener.
+     * @return The listener instance or null if not found.
+     */
     public BaseListener getListener(String listenerName) {
         return listeners.get(listenerName);
     }

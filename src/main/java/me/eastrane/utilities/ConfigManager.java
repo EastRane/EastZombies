@@ -32,6 +32,9 @@ public class ConfigManager {
         loadConfig();
     }
 
+    /**
+     * This method loads the configuration settings from the YAML file.
+     */
     public void loadConfig() {
         FileConfiguration config = plugin.getConfig();
         language = config.getString("language");
@@ -73,6 +76,10 @@ public class ConfigManager {
         zombieCompassRecipe.add(config.getString("features.zombie_compass.recipe.third_row"));
     }
 
+    /**
+     * This method reloads the configuration settings from the YAML file.
+     * It also checks for any differences between the current configuration and the default configuration.
+     */
     public void reloadConfig() {
         plugin.getDebugManager().sendInfo("Reloading configuration file...", true);
         checkConfig();
@@ -82,6 +89,10 @@ public class ConfigManager {
         plugin.getFeaturesManager().reactivateEvents();
     }
 
+    /**
+     * This method checks for any differences between the current configuration and the default configuration.
+     * If any differences are found, it updates the current configuration to match the default configuration.
+     */
     public void checkConfig() {
         try {
             File configFile = new File(plugin.getDataFolder(), "config.yml");

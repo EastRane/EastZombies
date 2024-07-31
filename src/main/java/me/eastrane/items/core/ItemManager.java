@@ -23,16 +23,32 @@ public class ItemManager {
         customItems.put(customItem.getType(), customItem);
     }
 
+    /**
+     * Retrieves a custom item by its type.
+     *
+     * @param type The type of the custom item.
+     * @return The custom item or null if not found.
+     */
     public CustomItem getCustomItem(CustomItemType type) {
         return customItems.get(type);
     }
 
+    /**
+     * Unregisters all custom item recipes.
+     */
     public void unregisterRecipes() {
         for (CustomItem item : customItems.values()) {
             item.unregister();
         }
     }
 
+    /**
+     * Rechecks the registration status of all custom items.
+     *
+     * @param worldTime The current world time.
+     * @return A map containing the names of custom items and their registration status changes.
+     *         If a item's registration status does not change, it is not included in the map.
+     */
     public Map<String, Boolean> recheckItems(long[] worldTime) {
         Map<String, Boolean> changes = new HashMap<>();
 

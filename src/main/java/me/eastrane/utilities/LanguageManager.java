@@ -22,6 +22,9 @@ public class LanguageManager {
         loadLanguages();
     }
 
+    /**
+     * Loads and sets up the language files for the plugin.
+     */
     public void loadLanguages() {
         language = plugin.getConfigManager().getLanguage();
         String languageFolder = plugin.getDataFolder() + File.separator + "languages";
@@ -49,6 +52,11 @@ public class LanguageManager {
         debugManager.sendInfo("Using language " + language + ".", true);
     }
 
+    /**
+     * Checks and updates the language configuration file to ensure it matches the default version.
+     *
+     * @param langFile The language configuration file to be checked.
+     */
     private void checkLanguageConfig(File langFile) {
         try {
             FileConfiguration config = YamlConfiguration.loadConfiguration(langFile);
@@ -84,6 +92,10 @@ public class LanguageManager {
 
     /**
      * Sends a message to the player by adding a prefix to it and applying color codes.
+     *
+     * @param sender         The CommandSender object representing the player who will receive the message.
+     * @param translationKey The key of the translation in the language file to be used.
+     * @param args           Variable arguments to be used in the formatted translation string.
      */
     public void sendMessage(CommandSender sender, String translationKey, Object... args) {
         String translation = getTranslation(translationKey);
@@ -96,7 +108,10 @@ public class LanguageManager {
     }
 
     /**
-     * Backup method for sending colour messages without involving language files.
+     * Backup method for sending color messages without involving language files.
+     *
+     * @param sender  The CommandSender object representing the player who will receive the message.
+     * @param message The message to be sent.
      */
     public void sendMessageManual(CommandSender sender, String message) {
         sender.sendMessage(Colorize(prefix + message));
@@ -104,6 +119,9 @@ public class LanguageManager {
 
     /**
      * Sends a message to all players by adding a prefix to it and applying color codes.
+     *
+     * @param translationKey The key of the translation in the language file to be used.
+     * @param args           Variable arguments to be used in the formatted translation string.
      */
     public void broadcastMessage(String translationKey, Object... args) {
         String translation = getTranslation(translationKey);
@@ -117,6 +135,9 @@ public class LanguageManager {
 
     /**
      * Finds the line corresponding to the key in the language file.
+     *
+     * @param translationKey The key of the translation in the language file to be found.
+     * @return The translation string corresponding to the key, or null if not found.
      */
     public String getTranslation(String translationKey) {
         File languageFile = new File(plugin.getDataFolder(), "languages" + File.separator + language + ".yml");
@@ -131,6 +152,12 @@ public class LanguageManager {
         return null;
     }
 
+    /**
+     * Applies color codes to the provided text.
+     *
+     * @param text The text to be colorized.
+     * @return The colorized text.
+     */
     public String Colorize(String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
     }

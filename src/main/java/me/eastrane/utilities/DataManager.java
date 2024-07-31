@@ -35,6 +35,9 @@ public class DataManager {
         loadData();
     }
 
+    /**
+     * Loads the zombie player data from the data file.
+     */
     public void loadData() {
         dataConfig = YamlConfiguration.loadConfiguration(dataFile);
         if (dataConfig.contains("players")) {
@@ -50,7 +53,9 @@ public class DataManager {
         }
     }
 
-
+    /**
+     * Saves the zombie player data to the data file.
+     */
     public void saveData() {
         List<String> uuidStrings = new ArrayList<>();
         for (UUID uuid : zombiePlayers) {
@@ -65,6 +70,11 @@ public class DataManager {
         }
     }
 
+    /**
+     * Adds a player to the zombie player data and saves the changes.
+     *
+     * @param player The player to add as a zombie.
+     */
     public void addZombiePlayer(Player player) {
         debugManager.sendInfo(player.getName() + " was added to data file as a zombie.");
         zombiePlayers.add(player.getUniqueId());
@@ -72,6 +82,11 @@ public class DataManager {
         saveData();
     }
 
+    /**
+     * Removes a player from the zombie player data and saves the changes.
+     *
+     * @param player The UUID of the player to remove from the zombie data.
+     */
     public void removeZombiePlayer(UUID player) {
         debugManager.sendInfo(plugin.getServer().getOfflinePlayer(player).getName() + " was removed from data file.");
         zombiePlayers.remove(player);
@@ -90,10 +105,22 @@ public class DataManager {
 
     }
 
+    /**
+     * Checks if a player is a zombie.
+     *
+     * @param player The player to check.
+     * @return True if the player is a zombie, false otherwise.
+     */
     public boolean isZombiePlayer(Player player) {
         return zombiePlayers.contains(player.getUniqueId());
     }
 
+    /**
+     * Checks if an offline player is a zombie.
+     *
+     * @param offlinePlayer The offline player to check.
+     * @return True if the offline player is a zombie, false otherwise.
+     */
     public boolean isZombiePlayer(OfflinePlayer offlinePlayer) {
         return zombiePlayers.contains(offlinePlayer.getUniqueId());
     }

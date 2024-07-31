@@ -9,6 +9,11 @@ public enum CustomItemType {
         this.identifier = identifier;
     }
 
+    /**
+     * Returns the unique identifier for this custom item type.
+     *
+     * @return The unique identifier for this custom item type.
+     */
     public String getIdentifier() {
         return identifier;
     }

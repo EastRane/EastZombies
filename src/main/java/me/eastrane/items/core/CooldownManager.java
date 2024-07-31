@@ -19,11 +19,24 @@ public class CooldownManager {
         languageManager = plugin.getLanguageManager();
     }
 
+    /**
+     * Registers a new item cooldown.
+     *
+     * @param itemKey  The unique identifier of the item.
+     * @param duration The duration of the cooldown in ticks (20 ticks = 1 second).
+     */
     public void registerCooldown(String itemKey, long duration) {
         cooldownDurations.put(itemKey, duration / 20 * 1000L);
         cooldowns.put(itemKey, new HashMap<>());
     }
 
+    /**
+     * Checks if a player is in cooldown for a specific item.
+     *
+     * @param itemId The unique identifier of the item.
+     * @param player The player to check.
+     * @return True if the player is in cooldown, false otherwise.
+     */
     public boolean isInCooldown(String itemId, Player player) {
         UUID playerId = player.getUniqueId();
         Map<UUID, Long> itemCooldowns = cooldowns.get(itemId);
@@ -42,6 +55,12 @@ public class CooldownManager {
         return false;
     }
 
+    /**
+     * Sets a cooldown for a specific item for a player.
+     *
+     * @param itemId The unique identifier of the item.
+     * @param player The player to set the cooldown for.
+     */
     public void setCooldown(String itemId, Player player) {
         cooldowns.get(itemId).put(player.getUniqueId(), System.currentTimeMillis());
     }
