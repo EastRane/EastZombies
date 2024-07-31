@@ -1,0 +1,17 @@
+name: EastZombies
+version: '${version}'
+main: me.eastrane.EastZombies
+api-version: '1.20'
+author: EastRane
+softdepend:
+  - "SkinsRestorer"
+commands:
+  eastzombies:
+    description: Main command
+    usage: /eastzombies
+    aliases: [ez]
+    permission: eastzombies.admin
+permissions:
+  eastzombies.admin:
+    description: Allows someone to run plugin's commands
+    default: op

@@ -1,0 +1,41 @@
+main:
+  prefix: '&2[Zombies] &r'
+  zombies_team_name: 'Zombies'
+commands:
+  help: |-
+    &7Help:&r
+    &f- &2/ez remove <name>&f: Remove a player from the zombie list.
+    &f- &2/ez start&f: Start the event.
+    &f- &2/ez reload&f: Reload the configuration.
+    A zero day will be set, the zombie list will be cleared, and all buffs and debuffs will be reactivated.
+  reload:
+    config_reload_success: '&aConfiguration file successfully reloaded.'
+  remove:
+    zombie_not_found: '&cThis zombie does not exist.'
+  errors:
+    restricted_command: '&cZombies cannot use this command.'
+    no_permission: "&cYou do not have permission to use this command."
+    invalid_subcommand: '&cInvalid subcommand. Available: %s.'
+    too_few_arguments: '&cToo few arguments. Type /ez for help.'
+    too_many_arguments: '&cToo many arguments. Type /ez for help.'
+    invalid_argument: '&cInvalid argument. Available: %s.'
+buffs:
+  broadcast:
+    no_target: '&aHostile mobs no longer aggro on zombies.'
+    flesh_no_hunger: '&aRotten flesh no longer causes hunger.'
+    hunger_attack: '&aZombie attacks now inflict hunger on humans.'
+    zombie_compass: |-
+      &aZombies can now craft a zombie compass.
+      &7Place four diamonds in the corners, rotten flesh on the left and right, spider eyes on top and bottom, and a compass in the center.
+  zombie_compass:
+    name: '&2Zombie Compass'
+    lore: '&7Tracks the last location of the nearest player.'
+    cooldown: '&cYou need to wait %s seconds before using the compass again.'
+    tracked: '&aThe compass now points to the location where %s was recently (%s meters).'
+    no_result: '&cNo nearby player found.'
+debuffs:
+  broadcast:
+    sunburn: '&cZombies now burn in sunlight.'
+    golems: '&cIron golems now aggro on zombies.'
+broadcasts:
+  player_turned_zombie: '&f%s has turned into a zombie!'
