@@ -22,6 +22,9 @@ public class StartCommand extends SubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (!hasPermission(sender)) {
+            return;
+        }
         if (args.length != 1) {
             languageManager.sendMessage(sender, "commands.errors.too_many_arguments");
             return;

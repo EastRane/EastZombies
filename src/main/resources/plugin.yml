@@ -10,8 +10,3 @@ commands:
     description: Main command
     usage: /eastzombies
     aliases: [ez]
-    permission: eastzombies.admin
-permissions:
-  eastzombies.admin:
-    description: Allows someone to run plugin's commands
-    default: op

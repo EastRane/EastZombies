@@ -26,13 +26,12 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!sender.hasPermission("eastzombies.admin")) {
-            languageManager.sendMessage(sender, "commands.errors.no_permission");
-            return true;
-        }
-
         if (args.length == 0) {
-            languageManager.sendMessage(sender, "commands.help");
+            if (sender.hasPermission("eastzombies.help")) {
+                languageManager.sendMessage(sender, "commands.help");
+                return true;
+            }
+            languageManager.sendMessage(sender, "commands.errors.no_permission");
             return true;
         }
 

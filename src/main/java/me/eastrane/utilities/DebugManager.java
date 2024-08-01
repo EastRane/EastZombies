@@ -24,6 +24,7 @@ public class DebugManager {
             sendException(e);
         }
     }
+
     /**
      * Logs a message to the debug file with the specified log level.
      *
@@ -64,8 +65,8 @@ public class DebugManager {
     /**
      * Sends an INFO level message to the console and debug file.
      *
-     * @param message              The message to send.
-     * @param isRequiredInConsole  Whether the message should be sent to the console regardless of disabled status in configuration
+     * @param message             The message to send.
+     * @param isRequiredInConsole Whether the message should be sent to the console regardless of disabled status in configuration
      */
     public void sendInfo(String message, boolean isRequiredInConsole) {
         if (configManager.isDebugConsole() || isRequiredInConsole) {
@@ -87,6 +88,7 @@ public class DebugManager {
             logToFile("WARNING", message);
         }
     }
+
     /**
      * Sends a SEVERE level message to the console and debug file.
      *
@@ -98,6 +100,7 @@ public class DebugManager {
             logToFile("SEVERE", message);
         }
     }
+
     /**
      * Sends an exception to the console and debug file.
      *

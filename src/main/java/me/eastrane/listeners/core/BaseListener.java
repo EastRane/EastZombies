@@ -13,8 +13,8 @@ public abstract class BaseListener implements Listener {
     /**
      * Constructs a new BaseListener instance.
      *
-     * @param plugin       The main plugin instance.
-     * @param isReloadable Indicates whether the listener can be unregistered during plugin reloads.
+     * @param plugin The main plugin instance.
+     * @param isReloadable Indicates whether the listener can be unregistered during a plugin reload.
      */
     public BaseListener(EastZombies plugin, boolean isReloadable) {
         this.plugin = plugin;

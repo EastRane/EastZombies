@@ -16,6 +16,9 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (!hasPermission(sender)) {
+            return;
+        }
         if (args.length != 1) {
             plugin.getLanguageManager().sendMessage(sender, "commands.errors.too_many_arguments");
             return;

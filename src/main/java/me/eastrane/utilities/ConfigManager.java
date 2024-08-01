@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.file.YamlConfigurationOptions;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 public class ConfigManager {
     private final EastZombies plugin;
+    FileConfiguration config;
     private String language;
     private boolean debugConsole, debugFile, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
     private boolean target, targetAtNight, flesh, fleshAtNight, sunburn, sunburnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
@@ -33,10 +35,10 @@ public class ConfigManager {
     }
 
     /**
-     * This method loads the configuration settings from the YAML file.
+     * Loads the configuration settings from the YAML file.
      */
     public void loadConfig() {
-        FileConfiguration config = plugin.getConfig();
+        config = plugin.getConfig();
         language = config.getString("language");
         debugConsole = config.getBoolean("debug.console");
         debugFile = config.getBoolean("debug.file");
@@ -77,7 +79,7 @@ public class ConfigManager {
     }
 
     /**
-     * This method reloads the configuration settings from the YAML file.
+     * Reloads the configuration settings from the YAML file.
      * It also checks for any differences between the current configuration and the default configuration.
      */
     public void reloadConfig() {
@@ -90,7 +92,7 @@ public class ConfigManager {
     }
 
     /**
-     * This method checks for any differences between the current configuration and the default configuration.
+     * Checks for any differences between the current configuration and the default configuration.
      * If any differences are found, it updates the current configuration to match the default configuration.
      */
     public void checkConfig() {
@@ -141,6 +143,18 @@ public class ConfigManager {
                 plugin.getDebugManager().sendWarning("Your configuration file contains differences in the set of options compared to the default version. It was corrected.");
             }
         } catch (Exception e) {
+            plugin.getDebugManager().sendException(e);
+        }
+    }
+
+    /**
+     * Saves the current configuration settings to the YAML file.
+     */
+    public void saveConfig() {
+        File configFile = new File(plugin.getDataFolder(), "config.yml");
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
             plugin.getDebugManager().sendException(e);
         }
     }
