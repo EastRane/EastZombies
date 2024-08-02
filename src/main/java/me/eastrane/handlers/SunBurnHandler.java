@@ -18,10 +18,10 @@ public class SunBurnHandler extends BaseHandler {
 
     protected boolean shouldRegister(long[] worldTime) {
         configManager = plugin.getConfigManager();
-        return configManager.isSunburn() &&
-                (worldTime[0] > configManager.getSunburnDay()) ||
-                (worldTime[0] == configManager.getSunburnDay() && !configManager.isSunburnAtNight()) ||
-                (worldTime[0] == configManager.getSunburnDay() && configManager.isSunburnAtNight() && worldTime[1] >= 13000);
+        return configManager.isSunBurn() &&
+                (worldTime[0] > configManager.getSunBurnDay()) ||
+                (worldTime[0] == configManager.getSunBurnDay() && !configManager.isSunBurnAtNight()) ||
+                (worldTime[0] == configManager.getSunBurnDay() && configManager.isSunBurnAtNight() && worldTime[1] >= 13000);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class SunBurnHandler extends BaseHandler {
         World world = player.getWorld();
         if (world.isDayTime() && world.getHighestBlockAt(player.getLocation()).getY() <= player.getLocation().getY() && !player.isInWaterOrRain()) {
             player.setVisualFire(true);
-            int sunburnDamage = plugin.getConfigManager().getSunburnDamage();
+            int sunburnDamage = plugin.getConfigManager().getSunBurnDamage();
             if (sunburnDamage > 0) {
                 player.damage(sunburnDamage);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.damage(sunburnDamage), 20L);

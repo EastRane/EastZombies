@@ -83,6 +83,7 @@ public class PlayerDeathListener extends BaseListener implements Listener {
         UUID playerId = player.getUniqueId();
         if (configManager.isResetRespawnOnFirstDeath() && dataManager.isZombiePlayer(player) && deathLocations.containsKey(playerId)) {
             Location deathLocation = deathLocations.get(playerId);
+            // This method doesn't exist before 1.20
             event.setRespawnLocation(deathLocation);
             deathLocations.remove(playerId);
             player.setRespawnLocation(null);

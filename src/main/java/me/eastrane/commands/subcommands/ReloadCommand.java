@@ -25,6 +25,7 @@ public class ReloadCommand extends SubCommand {
         }
         plugin.getConfigManager().reloadConfig();
         plugin.getDataManager().loadData();
+        plugin.getLanguageManager().sendMessage(sender, "commands.reload.success");
     }
 
     @Override

@@ -1,5 +1,5 @@
 main:
-  prefix: '&2[Zombies] &r'
+  prefix: '&2[EastZombies] &r'
   zombies_team_name: 'Zombies'
 commands:
   help: |-
@@ -9,7 +9,7 @@ commands:
     &f- &2/ez reload&f: Reload the configuration.
     A zero day will be set, the zombie list will be cleared, and all buffs and debuffs will be reactivated.
   reload:
-    config_reload_success: '&aConfiguration file successfully reloaded.'
+    success: '&aConfiguration file successfully reloaded.'
   remove:
     zombie_not_found: '&cThis zombie does not exist.'
   errors:
@@ -31,11 +31,12 @@ buffs:
     name: '&2Zombie Compass'
     lore: '&7Tracks the last location of the nearest player.'
     cooldown: '&cYou need to wait %s seconds before using the compass again.'
-    tracked: '&aThe compass now points to the location where %s was recently (%s meters).'
+    tracked: '&aThe compass now points to the location where &f%s&a was recently (%sm).'
     no_result: '&cNo nearby player found.'
 debuffs:
   broadcast:
-    sunburn: '&cZombies now burn in sunlight.'
+    sun_burn: '&cZombies now burn in sunlight.'
     golems: '&cIron golems now aggro on zombies.'
 broadcasts:
-  player_turned_zombie: '&f%s has turned into a zombie!'
+  player_turned_zombie: '&f%s &ahas turned into a zombie!'
+  day: "&aDay %s"

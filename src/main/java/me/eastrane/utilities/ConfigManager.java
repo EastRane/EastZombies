@@ -19,10 +19,10 @@ public class ConfigManager {
     private final EastZombies plugin;
     FileConfiguration config;
     private String language;
-    private boolean debugConsole, debugFile, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
-    private boolean target, targetAtNight, flesh, fleshAtNight, sunburn, sunburnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
-    private int targetDay, fleshDay, sunburnDay, hungerDay, golemsDay, zombieCompassDay;
-    private int dropFleshAmount, sunburnDamage, hungerDuration, zombieCompassCooldown;
+    private boolean debugConsole, debugFile, broadcastDay, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
+    private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
+    private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
+    private int dropFleshAmount, sunBurnDamage, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
     private List<Map<?, ?>> effectsList;
     private List<?> restrictedCommandsList;
@@ -42,6 +42,7 @@ public class ConfigManager {
         language = config.getString("language");
         debugConsole = config.getBoolean("debug.console");
         debugFile = config.getBoolean("debug.file");
+        broadcastDay = config.getBoolean("broadcast_day");
         dropHead = config.getBoolean("player.drop_head");
         changeSkin = config.getBoolean("player.change_skin");
         dropFlesh = config.getBoolean("player.flesh.drop_flesh");
@@ -57,10 +58,10 @@ public class ConfigManager {
         flesh = config.getBoolean("features.flesh.enabled");
         fleshDay = config.getInt("features.flesh.start_day");
         fleshAtNight = config.getBoolean("features.flesh.at_night");
-        sunburn = config.getBoolean("features.sun_burn.enabled");
-        sunburnDay = config.getInt("features.sun_burn.start_day");
-        sunburnAtNight = config.getBoolean("features.sun_burn.at_night");
-        sunburnDamage = config.getInt("features.sun_burn.damage");
+        sunBurn = config.getBoolean("features.sun_burn.enabled");
+        sunBurnDay = config.getInt("features.sun_burn.start_day");
+        sunBurnAtNight = config.getBoolean("features.sun_burn.at_night");
+        sunBurnDamage = config.getInt("features.sun_burn.damage");
         hunger = config.getBoolean("features.hunger.enabled");
         hungerDay = config.getInt("features.hunger.start_day");
         hungerAtNight = config.getBoolean("features.hunger.at_night");
@@ -168,6 +169,9 @@ public class ConfigManager {
     public boolean isDebugFile() {
         return debugFile;
     }
+    public boolean isBroadcastDay() {
+        return broadcastDay;
+    }
     public boolean isDropHead() {
         return dropHead;
     }
@@ -212,17 +216,17 @@ public class ConfigManager {
     public boolean isFleshAtNight() {
         return fleshAtNight;
     }
-    public boolean isSunburn() {
-        return sunburn;
+    public boolean isSunBurn() {
+        return sunBurn;
     }
-    public int getSunburnDay() {
-        return sunburnDay;
+    public int getSunBurnDay() {
+        return sunBurnDay;
     }
-    public boolean isSunburnAtNight() {
-        return sunburnAtNight;
+    public boolean isSunBurnAtNight() {
+        return sunBurnAtNight;
     }
-    public int getSunburnDamage() {
-        return sunburnDamage;
+    public int getSunBurnDamage() {
+        return sunBurnDamage;
     }
     public boolean isHunger() {
         return hunger;
