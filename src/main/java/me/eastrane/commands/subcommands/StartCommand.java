@@ -3,6 +3,7 @@ package me.eastrane.commands.subcommands;
 import me.eastrane.EastZombies;
 import me.eastrane.utilities.DataManager;
 import me.eastrane.utilities.LanguageManager;
+import org.bukkit.GameRule;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -31,6 +32,7 @@ public class StartCommand extends SubCommand {
         }
         World world = plugin.getServer().getWorlds().get(0);
         world.setFullTime(0);
+        world.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 1000);
         for (OfflinePlayer player : plugin.getServer().getOfflinePlayers()) {
             if (dataManager.isZombiePlayer(player)) {
                 dataManager.removeZombiePlayer(player.getUniqueId());
