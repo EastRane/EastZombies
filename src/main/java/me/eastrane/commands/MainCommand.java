@@ -2,7 +2,9 @@ package me.eastrane.commands;
 
 import me.eastrane.EastZombies;
 import me.eastrane.commands.subcommands.*;
+import me.eastrane.utilities.ConfigManager;
 import me.eastrane.utilities.LanguageManager;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,9 +21,14 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     private final Map<String, SubCommand> subCommands = new HashMap<>();
     public MainCommand(EastZombies plugin) {
         languageManager = plugin.getLanguageManager();
-        subCommands.put("remove", new RemoveCommand(plugin));
-        subCommands.put("start", new StartCommand(plugin));
-        subCommands.put("reload", new ReloadCommand(plugin));
+        registerSubCommand("remove", new RemoveCommand(plugin));
+        registerSubCommand("start", new StartCommand(plugin));
+        registerSubCommand("reload", new ReloadCommand(plugin));
+        registerSubCommand("status", new StatusCommand(plugin));
+    }
+
+    private void registerSubCommand(String command, SubCommand subCommand) {
+        subCommands.put(command, subCommand);
     }
 
     @Override

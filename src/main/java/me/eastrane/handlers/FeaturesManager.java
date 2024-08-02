@@ -12,6 +12,7 @@ public class FeaturesManager {
     private final EastZombies plugin;
     private final LanguageManager languageManager;
     private final World world;
+    private long lastDay = -1;
 
     public FeaturesManager(EastZombies plugin) {
         this.plugin = plugin;
@@ -21,6 +22,7 @@ public class FeaturesManager {
             @Override
             public void run() {
                 long[] worldTime = getWorldTime();
+                long currentDay = worldTime[0];
                 Map<String, Boolean> listenerChanges = plugin.getListenerManager().recheckListeners(worldTime);
                 Map<String, Boolean> handlerChanges = plugin.getHandlerManager().recheckHandlers(worldTime);
                 Map<String, Boolean> itemChanges = plugin.getItemManager().recheckItems(worldTime);
@@ -33,7 +35,7 @@ public class FeaturesManager {
                 }
 
                 if (Boolean.TRUE.equals(handlerChanges.get("SunBurnHandler"))) {
-                    languageManager.broadcastMessage("debuffs.broadcast.sunburn");
+                    languageManager.broadcastMessage("debuffs.broadcast.sun_burn");
                 }
 
                 if (Boolean.TRUE.equals(listenerChanges.get("EntityDamageByEntityListener"))) {
@@ -47,8 +49,12 @@ public class FeaturesManager {
                 if (Boolean.TRUE.equals(itemChanges.get(CustomItemType.ZOMBIE_COMPASS.toString()))) {
                     languageManager.broadcastMessage("buffs.broadcast.zombie_compass");
                 }
-//                plugin.getDebugManager().sendInfo(plugin.getListenerManager().getRegisteredListeners().toString());
-//                plugin.getDebugManager().sendInfo(plugin.getHandlerManager().getRegisteredHandlers().toString());
+
+                if (plugin.getConfigManager().isBroadcastDay() && currentDay != lastDay) {
+                    languageManager.broadcastTitle("broadcasts.day", null, 20, 60, 20, currentDay);
+                    lastDay = currentDay;
+                }
+
             }
         }.runTaskTimer(plugin, 0L, 60L);
     }

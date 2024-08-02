@@ -4,6 +4,9 @@
 # Available options are located in the 'languages' folder within the plugin directory.
 language: en_US
 
+# If true, a title will be displayed to all players when a new day begins
+broadcast_day: true
+
 player:
   # If true, players' skins will change to zombie skins when they become zombies.
   # You need SkinsRestorer plugin for this feature to work.
@@ -61,7 +64,7 @@ features:
     # If true, the feature activates at 19:00 on start_day; if false, it activates at 06:00.
     at_night: true
     # Damage in half-hearts that zombie players take from sunlight.
-    damage: 5
+    damage: 4
   hunger:
     # If true, zombie players' attacks will give hunger effect to human players.
     enabled: true
@@ -97,6 +100,6 @@ features:
 
 debug:
   # If true, debug messages will be logged to the console.
-  console: true
+  console: false
   # If true, debug messages will be written to the debug.yml file.
   file: false

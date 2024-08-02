@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.InputStream;
@@ -29,7 +30,7 @@ public class LanguageManager {
         language = plugin.getConfigManager().getLanguage();
         String languageFolder = plugin.getDataFolder() + File.separator + "languages";
         File folder = new File(languageFolder);
-        String[] defaultLanguages = {"ru_RU"};
+        String[] defaultLanguages = {"en_US", "ru_RU", "uk_UA"};
         for (String lang : defaultLanguages) {
             File languageFile = new File(languageFolder, lang + ".yml");
             if (!languageFile.exists()) {
@@ -61,7 +62,7 @@ public class LanguageManager {
         try {
             FileConfiguration config = YamlConfiguration.loadConfiguration(langFile);
             // not ru_RU, but en_US at final plugin development
-            InputStream defaultConfigStream = plugin.getResource("languages/ru_RU.yml");
+            InputStream defaultConfigStream = plugin.getResource("languages/en_US.yml");
             if (defaultConfigStream == null) {
                 debugManager.sendWarning("Default resource language file is missing.");
                 return;
@@ -134,6 +135,37 @@ public class LanguageManager {
     }
 
     /**
+     * Sends a title to all players by adding a prefix to it and applying color codes.
+     *
+     * @param titleKey The key of the title translation in the language file to be used.
+     * @param subtitleKey The key of the subtitle translation in the language file to be used. Can be null if no subtitle is desired.
+     * @param fadeIn The time in ticks for the title to fade in.
+     * @param stay The time in ticks for the title to stay on screen.
+     * @param fadeOut The time in ticks for the title to fade out.
+     * @param args Variable arguments to be used in formatted translation string.
+     */
+    public void broadcastTitle(String titleKey, String subtitleKey, int fadeIn, int stay, int fadeOut, Object... args) {
+        String title = getTranslation(titleKey);
+        String subtitle = subtitleKey != null ? getTranslation(subtitleKey) : null;
+
+        if (title != null) {
+            title = String.format(title, args);
+            title = Colorize(title);
+
+            if (subtitle != null) {
+                subtitle = String.format(subtitle, args);
+                subtitle = Colorize(subtitle);
+            }
+
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+            }
+        } else {
+            debugManager.sendWarning("Translation was not found for title key: " + titleKey);
+        }
+    }
+
+    /**
      * Finds the line corresponding to the key in the language file.
      *
      * @param translationKey The key of the translation in the language file to be found.
@@ -148,7 +180,6 @@ public class LanguageManager {
         if (langFileName.isSet(translationKey)) {
             return langFileName.getString(translationKey);
         }
-        debugManager.sendWarning("Translation not found for key: " + translationKey);
         return null;
     }
 
