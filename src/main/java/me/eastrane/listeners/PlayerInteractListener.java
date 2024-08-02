@@ -43,7 +43,7 @@ public class PlayerInteractListener extends BaseListener implements Listener {
 
     @EventHandler
     public void onCompassInteract(PlayerInteractEvent event) {
-        if (event.getAction().isRightClick() && event.getItem() != null) {
+        if (event.getAction().isRightClick() && event.getItem() != null && plugin.getDataManager().isZombiePlayer(event.getPlayer())) {
             ItemStack item = event.getItem();
             if (isZombieCompass(item) && plugin.getItemManager().getCustomItem(CustomItemType.ZOMBIE_COMPASS).isRegistered()) {
                 Player player = event.getPlayer();
