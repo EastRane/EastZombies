@@ -29,8 +29,6 @@ public final class EastZombies extends JavaPlugin {
     public void onEnable() {
         featuresManager = new FeaturesManager(this);
         registerManagers();
-
-
         MainCommand mainCommand = new MainCommand(this);
         this.getCommand("eastzombies").setExecutor(mainCommand);
         this.getCommand("eastzombies").setTabCompleter(mainCommand);
