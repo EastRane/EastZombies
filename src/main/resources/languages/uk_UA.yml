@@ -14,7 +14,7 @@ commands:
     zombie_not_found: '&cТакого зомбі не існує.'
   errors:
     restricted_command: '&cЗомбі не можуть використовувати цю команду.'
-    no_permission: "&cУ вас немає прав на використання цієї команди."
+    no_permission: '&cУ вас немає прав на використання цієї команди.'
     invalid_subcommand: '&cНеправильна підкоманда. Доступні: %s.'
     too_few_arguments: '&cЗанадто мало аргументів. Введіть /ez для допомоги.'
     too_many_arguments: '&cЗанадто багато аргументів. Введіть /ez для допомоги.'
@@ -39,4 +39,4 @@ debuffs:
     golems: '&cНа зомбі тепер агряться залізні големи.'
 broadcasts:
   player_turned_zombie: '&f%s&a перетворився на зомбі!'
-  day: "&aДень %s"
+  day: '&aДень %s'

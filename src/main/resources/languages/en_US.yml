@@ -14,7 +14,7 @@ commands:
     zombie_not_found: '&cThis zombie does not exist.'
   errors:
     restricted_command: '&cZombies cannot use this command.'
-    no_permission: "&cYou do not have permission to use this command."
+    no_permission: '&cYou do not have permission to use this command.'
     invalid_subcommand: '&cInvalid subcommand. Available: %s.'
     too_few_arguments: '&cToo few arguments. Type /ez for help.'
     too_many_arguments: '&cToo many arguments. Type /ez for help.'
@@ -39,4 +39,4 @@ debuffs:
     golems: '&cIron golems now aggro on zombies.'
 broadcasts:
   player_turned_zombie: '&f%s &ahas turned into a zombie!'
-  day: "&aDay %s"
+  day: '&aDay %s'

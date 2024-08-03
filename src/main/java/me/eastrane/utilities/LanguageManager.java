@@ -61,7 +61,6 @@ public class LanguageManager {
     private void checkLanguageConfig(File langFile) {
         try {
             FileConfiguration config = YamlConfiguration.loadConfiguration(langFile);
-            // not ru_RU, but en_US at final plugin development
             InputStream defaultConfigStream = plugin.getResource("languages/en_US.yml");
             if (defaultConfigStream == null) {
                 debugManager.sendWarning("Default resource language file is missing.");

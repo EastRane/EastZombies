@@ -51,7 +51,7 @@ public class FeaturesManager {
                 }
 
                 if (plugin.getConfigManager().isBroadcastDay() && currentDay != lastDay) {
-                    languageManager.broadcastTitle("broadcasts.day", null, 20, 60, 20, currentDay);
+                    languageManager.broadcastTitle("broadcasts.day", null, 20, 60, 20, currentDay + 1);
                     lastDay = currentDay;
                 }
 
