@@ -33,6 +33,7 @@ public class StartCommand extends SubCommand {
         World world = plugin.getServer().getWorlds().get(0);
         world.setFullTime(0);
         world.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 1000);
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
         for (OfflinePlayer player : plugin.getServer().getOfflinePlayers()) {
             if (dataManager.isZombiePlayer(player)) {
                 dataManager.removeZombiePlayer(player.getUniqueId());
