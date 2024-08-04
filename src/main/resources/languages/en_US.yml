@@ -7,6 +7,7 @@ commands:
     &f- &2/ez remove <name>&f: Remove a player from the zombie list.
     &f- &2/ez start&f: Start the event.
     &f- &2/ez reload&f: Reload the configuration.
+    &f- &2/ez status&f: Check the status of buffs/debuffs.
     A zero day will be set, the zombie list will be cleared, and all buffs and debuffs will be reactivated.
   reload:
     success: '&aConfiguration file successfully reloaded.'

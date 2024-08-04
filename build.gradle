@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'idea'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'me.eastrane'
@@ -30,7 +31,15 @@ repositories {
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
-    compileOnly 'net.skinsrestorer:skinsrestorer-api:15.0.14'
+    implementation "org.bstats:bstats-bukkit:3.0.2"
+    compileOnly "net.skinsrestorer:skinsrestorer-api:15.4.0"
+}
+
+shadowJar {
+    dependencies {
+        relocate("org.bstats","me.eastrane.dependencies.bstats")
+    }
+    archiveFileName = "${project.name}-${project.version}.jar"
 }
 
 def targetJavaVersion = 17
