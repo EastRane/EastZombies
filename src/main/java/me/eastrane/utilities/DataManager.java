@@ -41,8 +41,9 @@ public class DataManager {
     public void loadData() {
         dataConfig = YamlConfiguration.loadConfiguration(dataFile);
         if (dataConfig.contains("players")) {
-            List<String> stringList = dataConfig.getStringList("players");
-            for (String uuidString : stringList) {
+            List<String> playerNames = dataConfig.getStringList("players");
+            zombiePlayers.clear();
+            for (String uuidString : playerNames) {
                 UUID player = UUID.fromString(uuidString);
                 zombiePlayers.add(player);
                 teamHandler.addZombiePlayer(player);
