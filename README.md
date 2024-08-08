@@ -9,7 +9,7 @@
 
 ## Installation
 
-1. Download the latest version of the plugin from [GitHub releases](https://github.com/EastRane/EastZombies/releases), SpigotMC or Modrinth.
+1. Download the latest version of the plugin from [GitHub releases](https://github.com/EastRane/EastZombies/releases), [SpigotMC](https://www.spigotmc.org/resources/eastzombies.118748/) or [Modrinth](https://modrinth.com/plugin/eastzombies).
 2. Place the JAR file of the plugin into the `plugins` folder of your Minecraft server.
 3. Restart the server to activate the plugin.
 
