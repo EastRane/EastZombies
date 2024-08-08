@@ -1,8 +1,6 @@
 package me.eastrane.commands.subcommands;
 
 import me.eastrane.EastZombies;
-import me.eastrane.utilities.ConfigManager;
-import me.eastrane.utilities.LanguageManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;

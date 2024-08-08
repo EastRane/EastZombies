@@ -2,8 +2,6 @@ package me.eastrane.handlers;
 
 import me.eastrane.EastZombies;
 import me.eastrane.handlers.core.BaseHandler;
-import me.eastrane.utilities.DebugManager;
-import me.eastrane.utilities.LanguageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;

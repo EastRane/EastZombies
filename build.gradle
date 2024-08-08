@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'me.eastrane'
-version = '1.0'
+version = '1.0.0'
 
 idea {
     module {

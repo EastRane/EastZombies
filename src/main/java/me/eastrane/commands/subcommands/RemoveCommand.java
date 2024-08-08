@@ -3,7 +3,6 @@ package me.eastrane.commands.subcommands;
 import me.eastrane.EastZombies;
 import me.eastrane.utilities.DataManager;
 import me.eastrane.utilities.LanguageManager;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

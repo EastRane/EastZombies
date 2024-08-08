@@ -2,7 +2,6 @@ package me.eastrane.handlers;
 
 import me.eastrane.EastZombies;
 import me.eastrane.handlers.core.BaseHandler;
-import me.eastrane.utilities.ConfigManager;
 import me.eastrane.utilities.DebugManager;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -10,7 +9,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class EffectsHandler extends BaseHandler {
     private final EastZombies plugin;

@@ -1,7 +1,6 @@
 package me.eastrane.utilities;
 
 import me.eastrane.EastZombies;
-import me.eastrane.handlers.SkinsHandler;
 import me.eastrane.handlers.TeamHandler;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;

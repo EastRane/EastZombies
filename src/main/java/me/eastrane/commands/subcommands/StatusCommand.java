@@ -10,12 +10,9 @@ import me.eastrane.utilities.DataManager;
 import me.eastrane.utilities.LanguageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class StatusCommand extends SubCommand {
     private final ConfigManager configManager;
