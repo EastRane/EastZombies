@@ -15,7 +15,7 @@
 
 ## Documentation
 
-You can find everything about the plugin on the [Wiki](https://github.com/EastRane/EastZombies/wiki).
+You can find everything about the plugin on the [Wiki](https://eastrane.github.io/plugins/eastzombies/intro).
 
 ## Requirements
 
