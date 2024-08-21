@@ -22,6 +22,9 @@ player:
     drop_flesh: true
     # The amount of rotten flesh dropped.
     amount: 4
+  # Player's invulnerability after respawn
+  # Duration in ticks (0 to disable).
+  invulnerability: 300
   # Effects applied to zombie players.
   effects:
     enabled: true

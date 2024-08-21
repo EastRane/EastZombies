@@ -107,6 +107,6 @@ public class PlayerDeathListener extends BaseListener implements Listener {
                 }
             }.runTaskLater(plugin, 0);
         }
-        player.setNoDamageTicks(40);
+        player.setNoDamageTicks(configManager.getInvulnerability());
     }
 }

@@ -19,18 +19,12 @@ public class ConfigManager {
     private final EastZombies plugin;
     FileConfiguration config;
     private String language;
-    private boolean debugConsole;
-    private boolean debugFile;
-    private boolean broadcastDay;
-    private boolean dropHead;
-    private boolean changeSkin;
-    private boolean dropFlesh;
-    private boolean resetRespawnOnFirstDeath;
-    private boolean effects;
+    private boolean debugConsole, debugFile;
+    private boolean broadcastDay, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
     private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
     private boolean voiceBlockGroupsCreation, voicePersistentGroups, voiceJoinOnJoin, voiceJoinOnDeath, voiceJoinTeamOnly;
     private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
-    private int dropFleshAmount, sunBurnDamage, hungerDuration, zombieCompassCooldown;
+    private int dropFleshAmount, invulnerability, sunBurnDamage, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
     private List<Map<?, ?>> effectsList;
     private List<?> restrictedCommandsList;
@@ -56,6 +50,7 @@ public class ConfigManager {
         dropFlesh = config.getBoolean("player.flesh.drop_flesh");
         dropFleshAmount = config.getInt("player.flesh.amount");
         resetRespawnOnFirstDeath = config.getBoolean("player.reset_respawn_on_first_death");
+        invulnerability = config.getInt("player.invulnerability");
         effects = config.getBoolean("player.effects.enabled");
         effectsList = config.getMapList("player.effects.list");
         restrictedCommandsList = config.getList("player.restricted_commands");
@@ -199,6 +194,9 @@ public class ConfigManager {
     }
     public boolean isResetRespawnOnFirstDeath() {
         return resetRespawnOnFirstDeath;
+    }
+    public int getInvulnerability() {
+        return invulnerability;
     }
     public boolean isEffects() {
         return effects;
