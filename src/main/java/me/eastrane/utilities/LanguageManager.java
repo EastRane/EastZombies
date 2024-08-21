@@ -30,7 +30,7 @@ public class LanguageManager {
         language = plugin.getConfigManager().getLanguage();
         String languageFolder = plugin.getDataFolder() + File.separator + "languages";
         File folder = new File(languageFolder);
-        String[] defaultLanguages = {"en_US", "ru_RU", "uk_UA"};
+        String[] defaultLanguages = {"en_US", "ru_RU", "uk_UA", "tt_RU"};
         for (String lang : defaultLanguages) {
             File languageFile = new File(languageFolder, lang + ".yml");
             if (!languageFile.exists()) {
