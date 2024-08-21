@@ -40,6 +40,22 @@ player:
     - sr
     - skin
     - skins
+  # You need Simple Voice Chat plugin for these features to work.
+  voicechat:
+    # If true, two voice groups "Humans" and "Zombies" will be created when the server starts
+    # Changing this option requires a server restart.
+    persistent_groups: true
+    # If true, players will not be able to create groups
+    # Works only if persistent_groups is true
+    block_groups_creation: true
+    # Works only if persistent_groups is true
+    join:
+      # If true, a human player will automatically join the "Humans" group upon entering the server
+      on_join: true
+      # If true, a player will automatically join the "Zombies" group upon every death
+      on_death: true
+      # If true, humans cannot join "Zombies" group and zombies cannot join "Humans" group
+      team_only: true
 
 features:
   target:

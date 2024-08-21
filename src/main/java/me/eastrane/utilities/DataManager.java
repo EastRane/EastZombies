@@ -96,8 +96,11 @@ public class DataManager {
         plugin.getEffectsHandler().clearEffects(plugin.getServer().getPlayer(player));
         try {
             plugin.getSkinsHandler().clearSkin(player);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
+        }
+        if (plugin.getConfigManager().isVoicePersistentGroups() && plugin.getVoiceHandler() != null) {
+            plugin.getVoiceHandler().connectToTeamGroup(plugin.getServer().getPlayer(player));
         }
         // OfflinePlayer is null, so SkinsRestorer throws an exception but still clears the skin.
         // Also, unfortunately there is no way to clear effects from OfflinePlayer, so it was implemented using Join listener

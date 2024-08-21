@@ -1,30 +1,54 @@
 package me.eastrane.handlers.core;
 
 import me.eastrane.EastZombies;
-import me.eastrane.handlers.*;
+import me.eastrane.handlers.EffectsHandler;
+import me.eastrane.handlers.SkinsHandler;
+import me.eastrane.handlers.SunBurnHandler;
+import me.eastrane.handlers.TeamHandler;
+import me.eastrane.handlers.IronGolemAttackHandler;
+import me.eastrane.utilities.ConfigManager;
+import me.eastrane.utilities.DebugManager;
 
 import java.util.*;
 
 public class HandlerManager {
     private final EastZombies plugin;
+    private final ConfigManager configManager;
+    private final DebugManager debugManager;
     private final Map<String, BaseHandler> handlers = new HashMap<>();
 
     public HandlerManager(EastZombies plugin) {
         this.plugin = plugin;
+        configManager = plugin.getConfigManager();
+        debugManager = plugin.getDebugManager();
         registerHandlers();
     }
 
     private void registerHandlers() {
         registerHandler(new EffectsHandler(plugin, false));
         registerHandler(new TeamHandler(plugin, false));
-        if (plugin.getConfigManager().isChangeSkin()) {
+        if (configManager.isChangeSkin()) {
             try {
                 registerHandler(new SkinsHandler(plugin, false));
             } catch (NoClassDefFoundError e) {
-                plugin.getConfigManager().setChangeSkin(false);
-                plugin.getDebugManager().sendSevere("You have enabled changing player skins, but SkinsRestorer is not installed. This feature will not work.");
+                debugManager.sendSevere("You have enabled changing player skins, but SkinsRestorer is not installed. This feature will not work.");
             }
         }
+        if (configManager.isVoicePersistentGroups()) {
+            try {
+                // Had to use reflection so try-catch could see ClassNotFoundException
+                Class<?> voiceHandlerClass = Class.forName("me.eastrane.handlers.VoiceHandler");
+                BaseHandler voiceHandler = (BaseHandler) voiceHandlerClass
+                        .getConstructor(EastZombies.class, boolean.class)
+                        .newInstance(plugin, false);
+                registerHandler(voiceHandler);
+            } catch (ClassNotFoundException | NoClassDefFoundError e) {
+                debugManager.sendSevere("You have enabled voicechat groups, but Simple Voice Chat is not installed. This feature will not work.");
+            } catch (Exception e) {
+                debugManager.sendException(e);
+            }
+        }
+
         registerHandler(new SunBurnHandler(plugin, true));
         registerHandler(new IronGolemAttackHandler(plugin, true));
     }
@@ -38,7 +62,7 @@ public class HandlerManager {
      *
      * @param worldTime The current world time.
      * @return A map containing the names of handlers and their registration status changes.
-     *         If a handler's registration status does not change, it is not included in the map.
+     * If a handler's registration status does not change, it is not included in the map.
      */
     public Map<String, Boolean> recheckHandlers(long[] worldTime) {
         Map<String, Boolean> changes = new HashMap<>();

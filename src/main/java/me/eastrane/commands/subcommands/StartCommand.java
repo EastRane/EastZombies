@@ -7,6 +7,7 @@ import org.bukkit.GameRule;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +38,11 @@ public class StartCommand extends SubCommand {
         for (OfflinePlayer player : plugin.getServer().getOfflinePlayers()) {
             if (dataManager.isZombiePlayer(player)) {
                 dataManager.removeZombiePlayer(player.getUniqueId());
+            }
+        }
+        if (plugin.getConfigManager().isVoicePersistentGroups() && plugin.getVoiceHandler() != null) {
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                plugin.getVoiceHandler().connectToTeamGroup(plugin.getServer().getPlayer(player.getUniqueId()));
             }
         }
         plugin.getFeaturesManager().reactivateEvents();

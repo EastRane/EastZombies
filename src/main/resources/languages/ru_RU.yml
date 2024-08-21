@@ -41,3 +41,7 @@ debuffs:
 broadcasts:
   player_turned_zombie: '&f%s&a превратился в зомби!'
   day: '&aДень %s'
+voicechat:
+  errors:
+    wrong_group: "&cВы можете находиться лишь в группе вашей команды."
+    creation_blocked: "&cВы не можете создавать новые группы."

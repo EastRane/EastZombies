@@ -60,11 +60,11 @@ public class PlayerDeathListener extends BaseListener implements Listener {
 
             debugManager.sendInfo(player.getName() + " has just died and become a zombie.");
             plugin.getDataManager().addZombiePlayer(player);
-            if (configManager.isChangeSkin()) {
+            if (configManager.isChangeSkin() && plugin.getSkinsHandler() != null) {
                 try {
                     plugin.getSkinsHandler().changeSkin(player);
-                } catch (Exception e) {
-                    // If SkinsRestorer isn't installed, EastZombies won't see exception
+                } catch (Exception ignored) {
+                    // If SkinsRestorer isn't installed, EastZombies won't see an exception
                 }
             }
             languageManager.broadcastMessage("broadcasts.player_turned_zombie", player.getName());
@@ -96,6 +96,14 @@ public class PlayerDeathListener extends BaseListener implements Listener {
                 @Override
                 public void run() {
                     plugin.getEffectsHandler().giveZombieEffects(player);
+                }
+            }.runTaskLater(plugin, 0);
+        }
+        if (configManager.isVoicePersistentGroups() && configManager.isVoiceJoinOnDeath() && plugin.getVoiceHandler() != null) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    plugin.getVoiceHandler().connectToTeamGroup(player);
                 }
             }.runTaskLater(plugin, 0);
         }

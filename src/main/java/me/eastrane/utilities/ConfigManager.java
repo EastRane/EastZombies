@@ -19,8 +19,16 @@ public class ConfigManager {
     private final EastZombies plugin;
     FileConfiguration config;
     private String language;
-    private boolean debugConsole, debugFile, broadcastDay, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
+    private boolean debugConsole;
+    private boolean debugFile;
+    private boolean broadcastDay;
+    private boolean dropHead;
+    private boolean changeSkin;
+    private boolean dropFlesh;
+    private boolean resetRespawnOnFirstDeath;
+    private boolean effects;
     private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
+    private boolean voiceBlockGroupsCreation, voicePersistentGroups, voiceJoinOnJoin, voiceJoinOnDeath, voiceJoinTeamOnly;
     private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
     private int dropFleshAmount, sunBurnDamage, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
@@ -48,9 +56,14 @@ public class ConfigManager {
         dropFlesh = config.getBoolean("player.flesh.drop_flesh");
         dropFleshAmount = config.getInt("player.flesh.amount");
         resetRespawnOnFirstDeath = config.getBoolean("player.reset_respawn_on_first_death");
-        effects = plugin.getConfig().getBoolean("player.effects.enabled");
-        effectsList = plugin.getConfig().getMapList("player.effects.list");
-        restrictedCommandsList = plugin.getConfig().getList("player.restricted_commands");
+        effects = config.getBoolean("player.effects.enabled");
+        effectsList = config.getMapList("player.effects.list");
+        restrictedCommandsList = config.getList("player.restricted_commands");
+        voiceBlockGroupsCreation = config.getBoolean("player.voicechat.block_groups_creation");
+        voicePersistentGroups = config.getBoolean("player.voicechat.persistent_groups");
+        voiceJoinOnJoin = config.getBoolean("player.voicechat.join.on_join");
+        voiceJoinOnDeath = config.getBoolean("player.voicechat.join.on_death");
+        voiceJoinTeamOnly = config.getBoolean("player.voicechat.join.team_only");
 
         target = config.getBoolean("features.target.enabled");
         targetDay = config.getInt("features.target.start_day");
@@ -178,9 +191,6 @@ public class ConfigManager {
     public boolean isChangeSkin() {
         return changeSkin;
     }
-    public void setChangeSkin(boolean state) {
-        changeSkin = state;
-    }
     public boolean isDropFlesh() {
         return dropFlesh;
     }
@@ -197,6 +207,21 @@ public class ConfigManager {
         return effectsList;
     }
     public List<?> getRestrictedCommandsList() { return restrictedCommandsList; }
+    public boolean isVoicePersistentGroups() {
+        return voicePersistentGroups;
+    }
+    public boolean isVoiceJoinOnJoin() {
+        return voiceJoinOnJoin;
+    }
+    public boolean isVoiceJoinOnDeath() {
+        return voiceJoinOnDeath;
+    }
+    public boolean isVoiceJoinTeamOnly() {
+        return voiceJoinTeamOnly;
+    }
+    public boolean isVoiceBlockGroupsCreation() {
+        return voiceBlockGroupsCreation;
+    }
 
     public boolean isTarget() {
         return target;
@@ -262,5 +287,4 @@ public class ConfigManager {
     public int getZombieCompassCooldown() {
         return zombieCompassCooldown;
     }
-
 }

@@ -24,6 +24,7 @@ public final class EastZombies extends JavaPlugin {
     private SkinsHandler skinsHandler;
     private TeamHandler teamHandler;
     private EffectsHandler effectsHandler;
+    private VoiceHandler voiceHandler;
 
     @Override
     public void onEnable() {
@@ -120,6 +121,13 @@ public final class EastZombies extends JavaPlugin {
             effectsHandler = (EffectsHandler) getHandlerManager().getHandler("EffectsHandler");
         }
         return effectsHandler;
+    }
+
+    public VoiceHandler getVoiceHandler() {
+        if (voiceHandler == null) {
+            voiceHandler = (VoiceHandler) getHandlerManager().getHandler("VoiceHandler");
+        }
+        return voiceHandler;
     }
 
     @Override
