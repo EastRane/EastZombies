@@ -43,7 +43,7 @@ public class PlayerInteractListener extends BaseListener implements Listener {
 
     @EventHandler
     public void onCompassInteract(PlayerInteractEvent event) {
-        if (event.getAction().isRightClick() && event.getItem() != null && plugin.getDataManager().isZombiePlayer(event.getPlayer())) {
+        if (event.getAction().isRightClick() && event.getItem() != null && plugin.getBaseStorage().isZombie(event.getPlayer())) {
             ItemStack item = event.getItem();
             if (isZombieCompass(item) && plugin.getItemManager().getCustomItem(CustomItemType.ZOMBIE_COMPASS).isRegistered()) {
                 Player player = event.getPlayer();
@@ -90,7 +90,7 @@ public class PlayerInteractListener extends BaseListener implements Listener {
         Location playerLocation = player.getLocation();
 
         for (Player target : Bukkit.getServer().getOnlinePlayers()) {
-            if (!target.equals(player) && !plugin.getDataManager().isZombiePlayer(target)) {
+            if (!target.equals(player) && !plugin.getBaseStorage().isZombie(target)) {
                 double distance = target.getLocation().distance(playerLocation);
                 if (distance < nearestDistance) {
                     nearestDistance = distance;

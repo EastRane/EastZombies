@@ -3,7 +3,7 @@ package me.eastrane.listeners;
 import me.eastrane.EastZombies;
 import me.eastrane.listeners.core.BaseListener;
 import me.eastrane.utilities.ConfigProvider;
-import me.eastrane.utilities.DataManager;
+import me.eastrane.storages.core.BaseStorage;
 import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,13 +15,13 @@ import java.util.List;
 public class RestrictedCommandsListener extends BaseListener implements Listener {
     private final ConfigProvider configProvider;
     private final LanguageProvider languageProvider;
-    private final DataManager dataManager;
+    private final BaseStorage baseStorage;
 
     public RestrictedCommandsListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
         configProvider = plugin.getConfigProvider();
         languageProvider = plugin.getLanguageProvider();
-        dataManager = plugin.getDataManager();
+        baseStorage = plugin.getBaseStorage();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class RestrictedCommandsListener extends BaseListener implements Listener
     @EventHandler
     public void onCommandInput(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
-        if (dataManager.isZombiePlayer(player)) {
+        if (baseStorage.isZombie(player)) {
             List<String> restrictedCommands = (List<String>) configProvider.getRestrictedCommandsList();
             for (String command : restrictedCommands) {
                 if (event.getMessage().toLowerCase().startsWith("/" + command.toLowerCase())) {

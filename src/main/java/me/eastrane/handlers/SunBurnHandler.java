@@ -49,7 +49,7 @@ public class SunBurnHandler extends BaseHandler {
             @Override
             public void run() {
                 for (Player player : plugin.getServer().getOnlinePlayers()) {
-                    if (plugin.getDataManager().isZombiePlayer(player)) {
+                    if (plugin.getBaseStorage().isZombie(player)) {
                         checkSunBurn(player);
                     }
                 }

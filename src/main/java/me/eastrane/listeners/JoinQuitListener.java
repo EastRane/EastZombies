@@ -18,7 +18,7 @@ public class JoinQuitListener extends BaseListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!plugin.getDataManager().isZombiePlayer(event.getPlayer())) {
+        if (!plugin.getBaseStorage().isZombie(event.getPlayer())) {
             plugin.getEffectsHandler().clearEffects(event.getPlayer());
             event.getPlayer().setVisualFire(false);
         } else {

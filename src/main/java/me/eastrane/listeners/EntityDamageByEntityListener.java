@@ -3,7 +3,7 @@ package me.eastrane.listeners;
 import me.eastrane.EastZombies;
 import me.eastrane.listeners.core.BaseListener;
 import me.eastrane.utilities.ConfigProvider;
-import me.eastrane.utilities.DataManager;
+import me.eastrane.storages.core.BaseStorage;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,11 +14,11 @@ import org.bukkit.potion.PotionEffectType;
 
 public class EntityDamageByEntityListener extends BaseListener implements Listener {
     private ConfigProvider configProvider;
-    private final DataManager dataManager;
+    private final BaseStorage baseStorage;
 
     public EntityDamageByEntityListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
-        dataManager = plugin.getDataManager();
+        baseStorage = plugin.getBaseStorage();
     }
 
     @Override
@@ -35,8 +35,8 @@ public class EntityDamageByEntityListener extends BaseListener implements Listen
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         if (damager instanceof Player && entity instanceof Player) {
-            if (dataManager.isZombiePlayer(((Player) damager).getPlayer())) {
-                if (!dataManager.isZombiePlayer(((Player) entity).getPlayer())) {
+            if (baseStorage.isZombie(((Player) damager).getPlayer())) {
+                if (!baseStorage.isZombie(((Player) entity).getPlayer())) {
                     Player player = (Player) event.getEntity();
                     player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, configProvider.getHungerDuration(), 0));
                 }

@@ -22,7 +22,7 @@ public class ReloadCommand extends SubCommand {
             return;
         }
         plugin.getConfigProvider().reloadConfig();
-        plugin.getDataManager().loadData();
+        plugin.getBaseStorage().loadStorage();
         plugin.getLanguageProvider().sendMessage(sender, "commands.reload.success");
     }
 

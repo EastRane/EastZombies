@@ -6,7 +6,7 @@ import me.eastrane.items.core.CustomItemType;
 import me.eastrane.items.core.ItemManager;
 import me.eastrane.listeners.core.ListenerManager;
 import me.eastrane.utilities.ConfigProvider;
-import me.eastrane.utilities.DataManager;
+import me.eastrane.storages.core.BaseStorage;
 import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +17,7 @@ import java.util.List;
 public class StatusCommand extends SubCommand {
     private final ConfigProvider configProvider;
     private final LanguageProvider languageProvider;
-    private final DataManager dataManager;
+    private final BaseStorage baseStorage;
     private final ListenerManager listenerManager;
     private final HandlerManager handlerManager;
     private final ItemManager itemManager;
@@ -26,7 +26,7 @@ public class StatusCommand extends SubCommand {
         this.plugin = plugin;
         configProvider = plugin.getConfigProvider();
         languageProvider = plugin.getLanguageProvider();
-        dataManager = plugin.getDataManager();
+        baseStorage = plugin.getBaseStorage();
         listenerManager = plugin.getListenerManager();
         handlerManager = plugin.getHandlerManager();
         itemManager = plugin.getItemManager();

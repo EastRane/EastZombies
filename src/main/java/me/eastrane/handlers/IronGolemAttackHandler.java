@@ -50,7 +50,7 @@ public class IronGolemAttackHandler extends BaseHandler {
             @Override
             public void run() {
                 for (Player player : plugin.getServer().getOnlinePlayers()) {
-                    if (plugin.getDataManager().isZombiePlayer(player)) {
+                    if (plugin.getBaseStorage().isZombie(player)) {
                         checkIronGolem(player);
                     }
                 }

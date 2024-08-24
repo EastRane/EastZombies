@@ -32,7 +32,7 @@ public class EntityTargetListener extends BaseListener implements Listener {
         Entity target = event.getTarget();
         if (target instanceof Player) {
             Player player = (Player) target;
-            if (plugin.getDataManager().isZombiePlayer(player) && entity instanceof Monster) {
+            if (plugin.getBaseStorage().isZombie(player) && entity instanceof Monster) {
                 event.setCancelled(true);
             }
         }

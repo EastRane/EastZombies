@@ -74,7 +74,7 @@ public class VoiceHandler extends BaseHandler implements VoicechatPlugin {
         if (!configProvider.isVoiceJoinTeamOnly()) return;
 
         Player player = convertPlayer(event.getConnection().getPlayer());
-        UUID playerTeam = plugin.getDataManager().isZombiePlayer(player) ? zombieGroupId : humanGroupId;
+        UUID playerTeam = plugin.getBaseStorage().isZombie(player) ? zombieGroupId : humanGroupId;
         if (!event.getGroup().getId().equals(playerTeam)) {
             languageProvider.sendMessage(player, "voicechat.errors.wrong_group");
             event.cancel();
@@ -92,7 +92,7 @@ public class VoiceHandler extends BaseHandler implements VoicechatPlugin {
             plugin.getDebugProvider().sendWarning("Voice chat connection for player " + player.getName() + " could not be found.");
             return;
         }
-        Group teamGroup = plugin.getDataManager().isZombiePlayer(player) ? zombieGroup : humanGroup;
+        Group teamGroup = plugin.getBaseStorage().isZombie(player) ? zombieGroup : humanGroup;
         connection.setGroup(teamGroup);
         plugin.getDebugProvider().sendInfo("Player " + player.getName() + " was connected to " + teamGroup.getName() + " voice group.");
     }

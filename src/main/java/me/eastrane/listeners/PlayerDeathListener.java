@@ -5,7 +5,7 @@ import me.eastrane.listeners.core.BaseListener;
 import me.eastrane.utilities.ConfigProvider;
 import me.eastrane.utilities.DebugProvider;
 import me.eastrane.utilities.LanguageProvider;
-import me.eastrane.utilities.DataManager;
+import me.eastrane.storages.core.BaseStorage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class PlayerDeathListener extends BaseListener implements Listener {
     private final EastZombies plugin;
-    private final DataManager dataManager;
+    private final BaseStorage baseStorage;
     private final DebugProvider debugProvider;
     private final ConfigProvider configProvider;
     private final LanguageProvider languageProvider;
@@ -32,7 +32,7 @@ public class PlayerDeathListener extends BaseListener implements Listener {
     public PlayerDeathListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
         this.plugin = plugin;
-        this.dataManager = plugin.getDataManager();
+        this.baseStorage = plugin.getBaseStorage();
         this.debugProvider = plugin.getDebugProvider();
         this.configProvider = plugin.getConfigProvider();
         this.languageProvider = plugin.getLanguageProvider();
@@ -53,20 +53,11 @@ public class PlayerDeathListener extends BaseListener implements Listener {
             playerHead.setItemMeta(headMeta);
             player.getWorld().dropItemNaturally(event.getPlayer().getLocation(), playerHead);
         }
-        if (!dataManager.isZombiePlayer(player)) {
+        if (!baseStorage.isZombie(player)) {
             if (configProvider.isResetRespawnOnFirstDeath()) {
                 deathLocations.put(player.getUniqueId(), player.getLocation());
             }
-
             debugProvider.sendInfo(player.getName() + " has just died and become a zombie.");
-            plugin.getDataManager().addZombiePlayer(player);
-            if (configProvider.isChangeSkin() && plugin.getSkinsHandler() != null) {
-                try {
-                    plugin.getSkinsHandler().changeSkin(player);
-                } catch (Exception ignored) {
-                    // If SkinsRestorer isn't installed, EastZombies won't see an exception
-                }
-            }
             languageProvider.broadcastMessage("broadcasts.player_turned_zombie", player.getName());
         } else {
             debugProvider.sendInfo(player.getName() + " has just died, but he is already a zombie.");
@@ -75,13 +66,14 @@ public class PlayerDeathListener extends BaseListener implements Listener {
                 player.getWorld().dropItemNaturally(event.getPlayer().getLocation(), new ItemStack(Material.ROTTEN_FLESH, configProvider.getDropFleshAmount()));
             }
         }
+        plugin.getPlayerManager().addZombie(player);
     }
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
-        if (configProvider.isResetRespawnOnFirstDeath() && dataManager.isZombiePlayer(player) && deathLocations.containsKey(playerId)) {
+        if (configProvider.isResetRespawnOnFirstDeath() && baseStorage.isZombie(player) && deathLocations.containsKey(playerId)) {
             Location deathLocation = deathLocations.get(playerId);
             // This method doesn't exist before 1.20
             event.setRespawnLocation(deathLocation);
@@ -89,24 +81,15 @@ public class PlayerDeathListener extends BaseListener implements Listener {
             player.setRespawnLocation(null);
             plugin.getDebugProvider().sendInfo(player.getName() + " was respawned at his death location because he has just turned into a zombie.");
         }
-
-        plugin.getEffectsHandler().clearEffects(player);
-        if (configProvider.isEffects() && dataManager.isZombiePlayer(player)) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
+        // We need to apply effects again, after respawn, because PlayerManager does it on death
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (configProvider.isEffects() && baseStorage.isZombie(player)) {
                     plugin.getEffectsHandler().giveZombieEffects(player);
                 }
-            }.runTaskLater(plugin, 0);
-        }
-        if (configProvider.isVoicePersistentGroups() && configProvider.isVoiceJoinOnDeath() && plugin.getVoiceHandler() != null) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    plugin.getVoiceHandler().connectToTeamGroup(player);
-                }
-            }.runTaskLater(plugin, 0);
-        }
+            }
+        }.runTaskLater(plugin, 0);
         player.setNoDamageTicks(configProvider.getInvulnerability());
     }
 }

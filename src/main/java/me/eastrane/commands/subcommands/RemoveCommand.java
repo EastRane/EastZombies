@@ -1,7 +1,7 @@
 package me.eastrane.commands.subcommands;
 
 import me.eastrane.EastZombies;
-import me.eastrane.utilities.DataManager;
+import me.eastrane.storages.core.BaseStorage;
 import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class RemoveCommand extends SubCommand {
-    private final DataManager dataManager;
+    private final BaseStorage baseStorage;
     private final LanguageProvider languageProvider;
 
     public RemoveCommand(EastZombies plugin) {
         this.plugin = plugin;
-        dataManager = plugin.getDataManager();
+        baseStorage = plugin.getBaseStorage();
         languageProvider = plugin.getLanguageProvider();
     }
 
@@ -33,12 +33,12 @@ public class RemoveCommand extends SubCommand {
             languageProvider.sendMessage(sender, "commands.errors.too_many_arguments");
             return;
         }
-        UUID playerId = plugin.getServer().getOfflinePlayer(args[1]).getUniqueId();
-        if (!dataManager.isZombiePlayer(plugin.getServer().getOfflinePlayer(playerId))) {
+        UUID player = plugin.getServer().getOfflinePlayer(args[1]).getUniqueId();
+        if (!baseStorage.isZombie(plugin.getServer().getOfflinePlayer(player))) {
             languageProvider.sendMessage(sender, "commands.remove.zombie_not_found");
             return;
         }
-        dataManager.removeZombiePlayer(playerId);
+        plugin.getPlayerManager().removeZombie(player);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package me.eastrane.commands.subcommands;
 
 import me.eastrane.EastZombies;
-import me.eastrane.utilities.DataManager;
+import me.eastrane.storages.core.BaseStorage;
 import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.GameRule;
 import org.bukkit.OfflinePlayer;
@@ -11,14 +11,15 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class StartCommand extends SubCommand {
-    private final DataManager dataManager;
+    private final BaseStorage baseStorage;
     private final LanguageProvider languageProvider;
 
     public StartCommand(EastZombies plugin) {
         this.plugin = plugin;
-        dataManager = plugin.getDataManager();
+        baseStorage = plugin.getBaseStorage();
         languageProvider = plugin.getLanguageProvider();
     }
 
@@ -36,8 +37,9 @@ public class StartCommand extends SubCommand {
         world.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 1000);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
         for (OfflinePlayer player : plugin.getServer().getOfflinePlayers()) {
-            if (dataManager.isZombiePlayer(player)) {
-                dataManager.removeZombiePlayer(player.getUniqueId());
+            if (baseStorage.isZombie(player)) {
+                UUID playerId = player.getUniqueId();
+                plugin.getPlayerManager().removeZombie(playerId);
             }
         }
         if (plugin.getConfigProvider().isVoicePersistentGroups() && plugin.getVoiceHandler() != null) {

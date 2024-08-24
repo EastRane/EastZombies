@@ -6,14 +6,18 @@ import me.eastrane.items.core.CooldownManager;
 import me.eastrane.items.core.ItemManager;
 import me.eastrane.handlers.*;
 import me.eastrane.listeners.core.ListenerManager;
+import me.eastrane.storages.YamlStorage;
+import me.eastrane.storages.core.BaseStorage;
 import me.eastrane.utilities.*;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.yaml.snakeyaml.Yaml;
 
 public final class EastZombies extends JavaPlugin {
     private ConfigProvider configProvider;
     private LanguageProvider languageProvider;
     private DebugProvider debugProvider;
-    private DataManager dataManager;
+    private BaseStorage baseStorage;
+    private PlayerManager playerManager;
     private ListenerManager listenerManager;
     private HandlerManager handlerManager;
     private CooldownManager cooldownManager;
@@ -41,7 +45,8 @@ public final class EastZombies extends JavaPlugin {
         getConfigProvider();
         getLanguageProvider();
         getDebugProvider();
-        getDataManager();
+        getBaseStorage();
+        getPlayerManager();
         getFeaturesManager();
         getListenerManager();
         getHandlerManager();
@@ -67,11 +72,17 @@ public final class EastZombies extends JavaPlugin {
         }
         return debugProvider;
     }
-    public DataManager getDataManager() {
-        if (dataManager == null) {
-            dataManager = new DataManager(this);
+    public BaseStorage getBaseStorage() {
+        if (baseStorage == null) {
+            baseStorage = new YamlStorage(this);
         }
-        return dataManager;
+        return baseStorage;
+    }
+    public PlayerManager getPlayerManager() {
+        if (playerManager == null) {
+            playerManager = new PlayerManager(this);
+        }
+        return playerManager;
     }
     public ListenerManager getListenerManager() {
         if (listenerManager == null) {

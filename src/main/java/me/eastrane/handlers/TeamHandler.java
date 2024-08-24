@@ -40,12 +40,14 @@ public class TeamHandler extends BaseHandler {
         zombieTeam.setAllowFriendlyFire(false);
     }
 
-    public void removeZombiePlayer(UUID player) {
+    public void removeZombie(UUID player) {
         zombieTeam.removePlayer(plugin.getServer().getOfflinePlayer(player));
+        plugin.getDebugProvider().sendInfo(plugin.getServer().getOfflinePlayer(player).getName() + " was removed from vanilla team.");
     }
 
-    public void addZombiePlayer(UUID player) {
+    public void addZombie(UUID player) {
         zombieTeam.addPlayer(plugin.getServer().getOfflinePlayer(player));
+        plugin.getDebugProvider().sendInfo(plugin.getServer().getOfflinePlayer(player).getName() + " was added to vanilla team.");
     }
 
 }
