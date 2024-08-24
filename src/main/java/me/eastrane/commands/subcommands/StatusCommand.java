@@ -5,9 +5,9 @@ import me.eastrane.handlers.core.HandlerManager;
 import me.eastrane.items.core.CustomItemType;
 import me.eastrane.items.core.ItemManager;
 import me.eastrane.listeners.core.ListenerManager;
-import me.eastrane.utilities.ConfigManager;
+import me.eastrane.utilities.ConfigProvider;
 import me.eastrane.utilities.DataManager;
-import me.eastrane.utilities.LanguageManager;
+import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class StatusCommand extends SubCommand {
-    private final ConfigManager configManager;
-    private final LanguageManager languageManager;
+    private final ConfigProvider configProvider;
+    private final LanguageProvider languageProvider;
     private final DataManager dataManager;
     private final ListenerManager listenerManager;
     private final HandlerManager handlerManager;
@@ -24,8 +24,8 @@ public class StatusCommand extends SubCommand {
 
     public StatusCommand(EastZombies plugin) {
         this.plugin = plugin;
-        configManager = plugin.getConfigManager();
-        languageManager = plugin.getLanguageManager();
+        configProvider = plugin.getConfigProvider();
+        languageProvider = plugin.getLanguageProvider();
         dataManager = plugin.getDataManager();
         listenerManager = plugin.getListenerManager();
         handlerManager = plugin.getHandlerManager();
@@ -38,10 +38,10 @@ public class StatusCommand extends SubCommand {
             return;
         }
         if (args.length != 1) {
-            languageManager.sendMessage(sender, "commands.errors.too_many_arguments");
+            languageProvider.sendMessage(sender, "commands.errors.too_many_arguments");
             return;
         }
-        languageManager.sendMessageManual(sender, getStatus());
+        languageProvider.sendMessageManual(sender, getStatus());
 
     }
 
@@ -58,17 +58,17 @@ public class StatusCommand extends SubCommand {
         long gameDay = plugin.getServer().getWorlds().get(0).getFullTime() / 24000L;
         status.append("\n");
         status.append(ChatColor.DARK_GREEN).append("Target: ").append(isTarget ? ChatColor.GREEN : ChatColor.RED).append(isTarget)
-                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configManager.getTargetDay() + ")").append("\n");
+                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configProvider.getTargetDay() + ")").append("\n");
         status.append(ChatColor.DARK_GREEN).append("Flesh: ").append(isFlesh ? ChatColor.GREEN : ChatColor.RED).append(isFlesh)
-                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configManager.getFleshDay() + ")").append("\n");
+                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configProvider.getFleshDay() + ")").append("\n");
         status.append(ChatColor.DARK_GREEN).append("SunBurn: ").append(isSunBurn ? ChatColor.GREEN : ChatColor.RED).append(isSunBurn)
-                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configManager.getSunBurnDay() + ")").append("\n");
+                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configProvider.getSunBurnDay() + ")").append("\n");
         status.append(ChatColor.DARK_GREEN).append("Hunger: ").append(isHunger ? ChatColor.GREEN : ChatColor.RED).append(isHunger)
-                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configManager.getHungerDay() + ")").append("\n");
+                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configProvider.getHungerDay() + ")").append("\n");
         status.append(ChatColor.DARK_GREEN).append("Golems: ").append(isGolems ? ChatColor.GREEN : ChatColor.RED).append(isGolems)
-                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configManager.getGolemsDay() + ")").append("\n");
+                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configProvider.getGolemsDay() + ")").append("\n");
         status.append(ChatColor.DARK_GREEN).append("ZombieCompass: ").append(isZombieCompass ? ChatColor.GREEN : ChatColor.RED).append(isZombieCompass)
-                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configManager.getZombieCompassDay() + ")");
+                .append(ChatColor.DARK_GREEN).append(" (Day " + gameDay).append("/" + configProvider.getZombieCompassDay() + ")");
 
         return status.toString();
     }

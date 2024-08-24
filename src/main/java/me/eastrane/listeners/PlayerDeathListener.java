@@ -2,9 +2,9 @@ package me.eastrane.listeners;
 
 import me.eastrane.EastZombies;
 import me.eastrane.listeners.core.BaseListener;
-import me.eastrane.utilities.ConfigManager;
-import me.eastrane.utilities.DebugManager;
-import me.eastrane.utilities.LanguageManager;
+import me.eastrane.utilities.ConfigProvider;
+import me.eastrane.utilities.DebugProvider;
+import me.eastrane.utilities.LanguageProvider;
 import me.eastrane.utilities.DataManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,18 +24,18 @@ import java.util.UUID;
 public class PlayerDeathListener extends BaseListener implements Listener {
     private final EastZombies plugin;
     private final DataManager dataManager;
-    private final DebugManager debugManager;
-    private final ConfigManager configManager;
-    private final LanguageManager languageManager;
+    private final DebugProvider debugProvider;
+    private final ConfigProvider configProvider;
+    private final LanguageProvider languageProvider;
     private final HashMap<UUID, Location> deathLocations = new HashMap<>();
 
     public PlayerDeathListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
         this.plugin = plugin;
         this.dataManager = plugin.getDataManager();
-        this.debugManager = plugin.getDebugManager();
-        this.configManager = plugin.getConfigManager();
-        this.languageManager = plugin.getLanguageManager();
+        this.debugProvider = plugin.getDebugProvider();
+        this.configProvider = plugin.getConfigProvider();
+        this.languageProvider = plugin.getLanguageProvider();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PlayerDeathListener extends BaseListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
-        if (configManager.isDropHead()) {
+        if (configProvider.isDropHead()) {
             ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta headMeta = (SkullMeta) playerHead.getItemMeta();
             headMeta.setOwningPlayer(event.getPlayer());
@@ -54,25 +54,25 @@ public class PlayerDeathListener extends BaseListener implements Listener {
             player.getWorld().dropItemNaturally(event.getPlayer().getLocation(), playerHead);
         }
         if (!dataManager.isZombiePlayer(player)) {
-            if (configManager.isResetRespawnOnFirstDeath()) {
+            if (configProvider.isResetRespawnOnFirstDeath()) {
                 deathLocations.put(player.getUniqueId(), player.getLocation());
             }
 
-            debugManager.sendInfo(player.getName() + " has just died and become a zombie.");
+            debugProvider.sendInfo(player.getName() + " has just died and become a zombie.");
             plugin.getDataManager().addZombiePlayer(player);
-            if (configManager.isChangeSkin() && plugin.getSkinsHandler() != null) {
+            if (configProvider.isChangeSkin() && plugin.getSkinsHandler() != null) {
                 try {
                     plugin.getSkinsHandler().changeSkin(player);
                 } catch (Exception ignored) {
                     // If SkinsRestorer isn't installed, EastZombies won't see an exception
                 }
             }
-            languageManager.broadcastMessage("broadcasts.player_turned_zombie", player.getName());
+            languageProvider.broadcastMessage("broadcasts.player_turned_zombie", player.getName());
         } else {
-            debugManager.sendInfo(player.getName() + " has just died, but he is already a zombie.");
+            debugProvider.sendInfo(player.getName() + " has just died, but he is already a zombie.");
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_DEATH, 1.0f, 1.0f);
-            if (configManager.isDropFlesh()) {
-                player.getWorld().dropItemNaturally(event.getPlayer().getLocation(), new ItemStack(Material.ROTTEN_FLESH, configManager.getDropFleshAmount()));
+            if (configProvider.isDropFlesh()) {
+                player.getWorld().dropItemNaturally(event.getPlayer().getLocation(), new ItemStack(Material.ROTTEN_FLESH, configProvider.getDropFleshAmount()));
             }
         }
     }
@@ -81,17 +81,17 @@ public class PlayerDeathListener extends BaseListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
-        if (configManager.isResetRespawnOnFirstDeath() && dataManager.isZombiePlayer(player) && deathLocations.containsKey(playerId)) {
+        if (configProvider.isResetRespawnOnFirstDeath() && dataManager.isZombiePlayer(player) && deathLocations.containsKey(playerId)) {
             Location deathLocation = deathLocations.get(playerId);
             // This method doesn't exist before 1.20
             event.setRespawnLocation(deathLocation);
             deathLocations.remove(playerId);
             player.setRespawnLocation(null);
-            plugin.getDebugManager().sendInfo(player.getName() + " was respawned at his death location because he has just turned into a zombie.");
+            plugin.getDebugProvider().sendInfo(player.getName() + " was respawned at his death location because he has just turned into a zombie.");
         }
 
         plugin.getEffectsHandler().clearEffects(player);
-        if (configManager.isEffects() && dataManager.isZombiePlayer(player)) {
+        if (configProvider.isEffects() && dataManager.isZombiePlayer(player)) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -99,7 +99,7 @@ public class PlayerDeathListener extends BaseListener implements Listener {
                 }
             }.runTaskLater(plugin, 0);
         }
-        if (configManager.isVoicePersistentGroups() && configManager.isVoiceJoinOnDeath() && plugin.getVoiceHandler() != null) {
+        if (configProvider.isVoicePersistentGroups() && configProvider.isVoiceJoinOnDeath() && plugin.getVoiceHandler() != null) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -107,6 +107,6 @@ public class PlayerDeathListener extends BaseListener implements Listener {
                 }
             }.runTaskLater(plugin, 0);
         }
-        player.setNoDamageTicks(configManager.getInvulnerability());
+        player.setNoDamageTicks(configProvider.getInvulnerability());
     }
 }

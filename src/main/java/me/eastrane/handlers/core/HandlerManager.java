@@ -6,35 +6,35 @@ import me.eastrane.handlers.SkinsHandler;
 import me.eastrane.handlers.SunBurnHandler;
 import me.eastrane.handlers.TeamHandler;
 import me.eastrane.handlers.IronGolemAttackHandler;
-import me.eastrane.utilities.ConfigManager;
-import me.eastrane.utilities.DebugManager;
+import me.eastrane.utilities.ConfigProvider;
+import me.eastrane.utilities.DebugProvider;
 
 import java.util.*;
 
 public class HandlerManager {
     private final EastZombies plugin;
-    private final ConfigManager configManager;
-    private final DebugManager debugManager;
+    private final ConfigProvider configProvider;
+    private final DebugProvider debugProvider;
     private final Map<String, BaseHandler> handlers = new HashMap<>();
 
     public HandlerManager(EastZombies plugin) {
         this.plugin = plugin;
-        configManager = plugin.getConfigManager();
-        debugManager = plugin.getDebugManager();
+        configProvider = plugin.getConfigProvider();
+        debugProvider = plugin.getDebugProvider();
         registerHandlers();
     }
 
     private void registerHandlers() {
         registerHandler(new EffectsHandler(plugin, false));
         registerHandler(new TeamHandler(plugin, false));
-        if (configManager.isChangeSkin()) {
+        if (configProvider.isChangeSkin()) {
             try {
                 registerHandler(new SkinsHandler(plugin, false));
             } catch (NoClassDefFoundError e) {
-                debugManager.sendSevere("You have enabled changing player skins, but SkinsRestorer is not installed. This feature will not work.");
+                debugProvider.sendSevere("You have enabled changing player skins, but SkinsRestorer is not installed. This feature will not work.");
             }
         }
-        if (configManager.isVoicePersistentGroups()) {
+        if (configProvider.isVoicePersistentGroups()) {
             try {
                 // Had to use reflection so try-catch could see ClassNotFoundException
                 Class<?> voiceHandlerClass = Class.forName("me.eastrane.handlers.VoiceHandler");
@@ -43,9 +43,9 @@ public class HandlerManager {
                         .newInstance(plugin, false);
                 registerHandler(voiceHandler);
             } catch (ClassNotFoundException | NoClassDefFoundError e) {
-                debugManager.sendSevere("You have enabled voicechat groups, but Simple Voice Chat is not installed. This feature will not work.");
+                debugProvider.sendSevere("You have enabled voicechat groups, but Simple Voice Chat is not installed. This feature will not work.");
             } catch (Exception e) {
-                debugManager.sendException(e);
+                debugProvider.sendException(e);
             }
         }
 

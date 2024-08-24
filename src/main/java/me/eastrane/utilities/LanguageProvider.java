@@ -12,14 +12,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-public class LanguageManager {
-    private final DebugManager debugManager;
+public class LanguageProvider {
+    private final DebugProvider debugProvider;
     private final EastZombies plugin;
     private String language, prefix;
 
-    public LanguageManager(EastZombies plugin) {
+    public LanguageProvider(EastZombies plugin) {
         this.plugin = plugin;
-        debugManager = plugin.getDebugManager();
+        debugProvider = plugin.getDebugProvider();
         loadLanguages();
     }
 
@@ -27,7 +27,7 @@ public class LanguageManager {
      * Loads and sets up the language files for the plugin.
      */
     public void loadLanguages() {
-        language = plugin.getConfigManager().getLanguage();
+        language = plugin.getConfigProvider().getLanguage();
         String languageFolder = plugin.getDataFolder() + File.separator + "languages";
         File folder = new File(languageFolder);
         String[] defaultLanguages = {"en_US", "ru_RU", "uk_UA", "tt_RU"};
@@ -47,10 +47,10 @@ public class LanguageManager {
         if (selectedLanguageFile.exists()) {
             YamlConfiguration.loadConfiguration(selectedLanguageFile);
         } else {
-            debugManager.sendWarning("Selected language file " + selectedLanguageFile.getName() + " does not exist.");
+            debugProvider.sendWarning("Selected language file " + selectedLanguageFile.getName() + " does not exist.");
         }
         prefix = Colorize(getTranslation("main.prefix"));
-        debugManager.sendInfo("Using language " + language + ".", true);
+        debugProvider.sendInfo("Using language " + language + ".", true);
     }
 
     /**
@@ -63,7 +63,7 @@ public class LanguageManager {
             FileConfiguration config = YamlConfiguration.loadConfiguration(langFile);
             InputStream defaultConfigStream = plugin.getResource("languages/en_US.yml");
             if (defaultConfigStream == null) {
-                debugManager.sendWarning("Default resource language file is missing.");
+                debugProvider.sendWarning("Default resource language file is missing.");
                 return;
             }
             FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultConfigStream, StandardCharsets.UTF_8));
@@ -83,10 +83,10 @@ public class LanguageManager {
             if (configUpdated) {
                 config.setDefaults(defaultConfig);
                 config.save(langFile);
-                debugManager.sendWarning("Your language file contains differences in the set of options compared to the default version. It was corrected.");
+                debugProvider.sendWarning("Your language file contains differences in the set of options compared to the default version. It was corrected.");
             }
         } catch (Exception e) {
-            debugManager.sendException(e);
+            debugProvider.sendException(e);
         }
     }
 
@@ -103,7 +103,7 @@ public class LanguageManager {
             String message = String.format(translation, args);
             sender.sendMessage(Colorize(prefix + message));
         } else {
-            debugManager.sendWarning("Translation was not found for key: " + translationKey);
+            debugProvider.sendWarning("Translation was not found for key: " + translationKey);
         }
     }
 
@@ -129,7 +129,7 @@ public class LanguageManager {
             String message = String.format(translation, args);
             plugin.getServer().broadcastMessage(Colorize(prefix + message));
         } else {
-            debugManager.sendWarning("Translation was not found for key: " + translationKey);
+            debugProvider.sendWarning("Translation was not found for key: " + translationKey);
         }
     }
 
@@ -160,7 +160,7 @@ public class LanguageManager {
                 player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
             }
         } else {
-            debugManager.sendWarning("Translation was not found for title key: " + titleKey);
+            debugProvider.sendWarning("Translation was not found for title key: " + titleKey);
         }
     }
 
@@ -173,7 +173,7 @@ public class LanguageManager {
     public String getTranslation(String translationKey) {
         File languageFile = new File(plugin.getDataFolder(), "languages" + File.separator + language + ".yml");
         if (!languageFile.exists()) {
-            debugManager.sendWarning("Language file not found: " + language);
+            debugProvider.sendWarning("Language file not found: " + language);
         }
         YamlConfiguration langFileName = YamlConfiguration.loadConfiguration(languageFile);
         if (langFileName.isSet(translationKey)) {

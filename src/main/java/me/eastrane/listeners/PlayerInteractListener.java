@@ -5,8 +5,8 @@ import me.eastrane.items.core.CooldownManager;
 import me.eastrane.items.core.CustomItemType;
 import me.eastrane.items.core.ItemManager;
 import me.eastrane.listeners.core.BaseListener;
-import me.eastrane.utilities.ConfigManager;
-import me.eastrane.utilities.LanguageManager;
+import me.eastrane.utilities.ConfigProvider;
+import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,20 +20,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 public class PlayerInteractListener extends BaseListener implements Listener {
-    private final ConfigManager configManager;
-    private final LanguageManager languageManager;
+    private final ConfigProvider configProvider;
+    private final LanguageProvider languageProvider;
     private final ItemManager itemManager;
     private final CooldownManager cooldownManager;
     private final String zombieCompassIdentifier;
 
     public PlayerInteractListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
-        this.configManager = plugin.getConfigManager();
-        this.languageManager = plugin.getLanguageManager();
+        this.configProvider = plugin.getConfigProvider();
+        this.languageProvider = plugin.getLanguageProvider();
         this.itemManager = plugin.getItemManager();
         this.cooldownManager = plugin.getCooldownManager();
         zombieCompassIdentifier = itemManager.getCustomItem(CustomItemType.ZOMBIE_COMPASS).getIdentifier();
-        cooldownManager.registerCooldown(zombieCompassIdentifier, configManager.getZombieCompassCooldown());
+        cooldownManager.registerCooldown(zombieCompassIdentifier, configProvider.getZombieCompassCooldown());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class PlayerInteractListener extends BaseListener implements Listener {
         if (nearestPlayer != null) {
             updateCompassTarget(player, item, nearestPlayer);
         } else {
-            languageManager.sendMessage(player, "buffs.zombie_compass.no_result");
+            languageProvider.sendMessage(player, "buffs.zombie_compass.no_result");
         }
     }
 
@@ -81,7 +81,7 @@ public class PlayerInteractListener extends BaseListener implements Listener {
         compassMeta.setLodestone(targetLocation);
         compassMeta.setLodestoneTracked(false);
         item.setItemMeta(compassMeta);
-        languageManager.sendMessage(player, "buffs.zombie_compass.tracked", target.getName(), (int) target.getLocation().distance(player.getLocation()));
+        languageProvider.sendMessage(player, "buffs.zombie_compass.tracked", target.getName(), (int) target.getLocation().distance(player.getLocation()));
     }
 
     private Player getNearestPlayer(Player player) {

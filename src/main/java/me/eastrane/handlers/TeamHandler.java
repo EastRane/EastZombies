@@ -31,11 +31,11 @@ public class TeamHandler extends BaseHandler {
     private void createZombieTeam() {
         zombieTeam = board.getTeam("zombies");
         if (zombieTeam == null) {
-            plugin.getDebugManager().sendInfo("Creating zombies team...");
+            plugin.getDebugProvider().sendInfo("Creating zombies team...");
             board.registerNewTeam("zombies");
             zombieTeam = board.getTeam("zombies");
         }
-        zombieTeam.setDisplayName(plugin.getLanguageManager().getTranslation("main.zombies_team_name"));
+        zombieTeam.setDisplayName(plugin.getLanguageProvider().getTranslation("main.zombies_team_name"));
         zombieTeam.setColor(ChatColor.DARK_GREEN);
         zombieTeam.setAllowFriendlyFire(false);
     }

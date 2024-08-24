@@ -13,7 +13,7 @@ import java.util.*;
 
 public class DataManager {
     private final EastZombies plugin;
-    private final DebugManager debugManager;
+    private final DebugProvider debugProvider;
     private final TeamHandler teamHandler;
     private final File dataFile;
     private FileConfiguration dataConfig;
@@ -21,14 +21,14 @@ public class DataManager {
 
     public DataManager(EastZombies plugin) {
         this.plugin = plugin;
-        debugManager = plugin.getDebugManager();
+        debugProvider = plugin.getDebugProvider();
         this.teamHandler = plugin.getTeamHandler();
         dataFile = new File(plugin.getDataFolder(), "zombies.yml");
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
             } catch (IOException e) {
-                plugin.getDebugManager().sendException(e);
+                plugin.getDebugProvider().sendException(e);
             }
         }
         loadData();
@@ -48,7 +48,7 @@ public class DataManager {
                 teamHandler.addZombiePlayer(player);
             }
             if (!zombiePlayers.isEmpty()) {
-                debugManager.sendInfo(zombiePlayers.stream().count() + " zombies was loaded from data file.", true);
+                debugProvider.sendInfo(zombiePlayers.stream().count() + " zombies was loaded from data file.", true);
             }
         }
     }
@@ -64,9 +64,9 @@ public class DataManager {
         dataConfig.set("players", uuidStrings);
         try {
             dataConfig.save(dataFile);
-            debugManager.sendInfo("Data file was saved successfully.");
+            debugProvider.sendInfo("Data file was saved successfully.");
         } catch (IOException e) {
-            debugManager.sendException(e);
+            debugProvider.sendException(e);
         }
     }
 
@@ -76,7 +76,7 @@ public class DataManager {
      * @param player The player to add as a zombie.
      */
     public void addZombiePlayer(Player player) {
-        debugManager.sendInfo(player.getName() + " was added to data file as a zombie.");
+        debugProvider.sendInfo(player.getName() + " was added to data file as a zombie.");
         zombiePlayers.add(player.getUniqueId());
         teamHandler.addZombiePlayer(player.getUniqueId());
         saveData();
@@ -88,10 +88,10 @@ public class DataManager {
      * @param player The UUID of the player to remove from the zombie data.
      */
     public void removeZombiePlayer(UUID player) {
-        debugManager.sendInfo(plugin.getServer().getOfflinePlayer(player).getName() + " was removed from data file.");
+        debugProvider.sendInfo(plugin.getServer().getOfflinePlayer(player).getName() + " was removed from data file.");
         zombiePlayers.remove(player);
         saveData();
-        debugManager.sendInfo(plugin.getServer().getOfflinePlayer(player).getName() + " was removed from vanilla team.");
+        debugProvider.sendInfo(plugin.getServer().getOfflinePlayer(player).getName() + " was removed from vanilla team.");
         teamHandler.removeZombiePlayer(player);
         plugin.getEffectsHandler().clearEffects(plugin.getServer().getPlayer(player));
         try {
@@ -99,7 +99,7 @@ public class DataManager {
         } catch (Exception ignored) {
 
         }
-        if (plugin.getConfigManager().isVoicePersistentGroups() && plugin.getVoiceHandler() != null) {
+        if (plugin.getConfigProvider().isVoicePersistentGroups() && plugin.getVoiceHandler() != null) {
             plugin.getVoiceHandler().connectToTeamGroup(plugin.getServer().getPlayer(player));
         }
         // OfflinePlayer is null, so SkinsRestorer throws an exception but still clears the skin.

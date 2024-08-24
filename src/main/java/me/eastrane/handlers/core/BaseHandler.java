@@ -30,7 +30,7 @@ public abstract class BaseHandler {
      * @return True if the handler was successfully registered, false otherwise.
      */
     protected boolean register() {
-        plugin.getDebugManager().sendInfo(this.getClass().getSimpleName() + " was registered.");
+        plugin.getDebugProvider().sendInfo(this.getClass().getSimpleName() + " was registered.");
         isRegistered = true;
         return true;
     }
@@ -44,7 +44,7 @@ public abstract class BaseHandler {
      */
     protected boolean unregister() {
         if (isReloadable) {
-            plugin.getDebugManager().sendInfo(this.getClass().getSimpleName() + " was unregistered.");
+            plugin.getDebugProvider().sendInfo(this.getClass().getSimpleName() + " was unregistered.");
             isRegistered = false;
             return true;
         }

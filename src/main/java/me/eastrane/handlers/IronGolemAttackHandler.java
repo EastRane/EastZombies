@@ -2,14 +2,14 @@ package me.eastrane.handlers;
 
 import me.eastrane.EastZombies;
 import me.eastrane.handlers.core.BaseHandler;
-import me.eastrane.utilities.ConfigManager;
+import me.eastrane.utilities.ConfigProvider;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class IronGolemAttackHandler extends BaseHandler {
-    private ConfigManager configManager;
+    private ConfigProvider configProvider;
     private BukkitTask task;
 
     public IronGolemAttackHandler(EastZombies plugin, boolean isReloadable) {
@@ -18,11 +18,11 @@ public class IronGolemAttackHandler extends BaseHandler {
 
     @Override
     protected boolean shouldRegister(long[] worldTime) {
-        configManager = plugin.getConfigManager();
-        return configManager.isGolems() &&
-                (worldTime[0] > configManager.getGolemsDay()) ||
-                (worldTime[0] == configManager.getGolemsDay() && !configManager.isGolemsAtNight()) ||
-                (worldTime[0] == configManager.getGolemsDay() && configManager.isGolemsAtNight() && worldTime[1] >= 13000);
+        configProvider = plugin.getConfigProvider();
+        return configProvider.isGolems() &&
+                (worldTime[0] > configProvider.getGolemsDay()) ||
+                (worldTime[0] == configProvider.getGolemsDay() && !configProvider.isGolemsAtNight()) ||
+                (worldTime[0] == configProvider.getGolemsDay() && configProvider.isGolemsAtNight() && worldTime[1] >= 13000);
     }
 
     @Override

@@ -2,7 +2,7 @@ package me.eastrane.commands.subcommands;
 
 import me.eastrane.EastZombies;
 import me.eastrane.utilities.DataManager;
-import me.eastrane.utilities.LanguageManager;
+import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,12 +13,12 @@ import java.util.UUID;
 
 public class RemoveCommand extends SubCommand {
     private final DataManager dataManager;
-    private final LanguageManager languageManager;
+    private final LanguageProvider languageProvider;
 
     public RemoveCommand(EastZombies plugin) {
         this.plugin = plugin;
         dataManager = plugin.getDataManager();
-        languageManager = plugin.getLanguageManager();
+        languageProvider = plugin.getLanguageProvider();
     }
 
     @Override
@@ -27,15 +27,15 @@ public class RemoveCommand extends SubCommand {
             return;
         }
         if (args.length < 2) {
-            languageManager.sendMessage(sender, "commands.errors.too_few_arguments");
+            languageProvider.sendMessage(sender, "commands.errors.too_few_arguments");
             return;
         } else if (args.length > 2) {
-            languageManager.sendMessage(sender, "commands.errors.too_many_arguments");
+            languageProvider.sendMessage(sender, "commands.errors.too_many_arguments");
             return;
         }
         UUID playerId = plugin.getServer().getOfflinePlayer(args[1]).getUniqueId();
         if (!dataManager.isZombiePlayer(plugin.getServer().getOfflinePlayer(playerId))) {
-            languageManager.sendMessage(sender, "commands.remove.zombie_not_found");
+            languageProvider.sendMessage(sender, "commands.remove.zombie_not_found");
             return;
         }
         dataManager.removeZombiePlayer(playerId);

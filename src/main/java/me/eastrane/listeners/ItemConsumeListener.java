@@ -2,7 +2,7 @@ package me.eastrane.listeners;
 
 import me.eastrane.EastZombies;
 import me.eastrane.listeners.core.BaseListener;
-import me.eastrane.utilities.ConfigManager;
+import me.eastrane.utilities.ConfigProvider;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ItemConsumeListener extends BaseListener implements Listener {
-    private ConfigManager configManager;
+    private ConfigProvider configProvider;
 
     public ItemConsumeListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
@@ -19,11 +19,11 @@ public class ItemConsumeListener extends BaseListener implements Listener {
 
     @Override
     protected boolean shouldRegister(long[] worldTime) {
-        configManager = plugin.getConfigManager();
-        return configManager.isFlesh() &&
-                (worldTime[0] > configManager.getFleshDay()) ||
-                (worldTime[0] == configManager.getFleshDay() && !configManager.isFleshAtNight()) ||
-                (worldTime[0] == configManager.getFleshDay() && configManager.isFleshAtNight() && worldTime[1] >= 13000);
+        configProvider = plugin.getConfigProvider();
+        return configProvider.isFlesh() &&
+                (worldTime[0] > configProvider.getFleshDay()) ||
+                (worldTime[0] == configProvider.getFleshDay() && !configProvider.isFleshAtNight()) ||
+                (worldTime[0] == configProvider.getFleshDay() && configProvider.isFleshAtNight() && worldTime[1] >= 13000);
     }
 
     @EventHandler

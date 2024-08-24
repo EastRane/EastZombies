@@ -18,12 +18,12 @@ public class ReloadCommand extends SubCommand {
             return;
         }
         if (args.length != 1) {
-            plugin.getLanguageManager().sendMessage(sender, "commands.errors.too_many_arguments");
+            plugin.getLanguageProvider().sendMessage(sender, "commands.errors.too_many_arguments");
             return;
         }
-        plugin.getConfigManager().reloadConfig();
+        plugin.getConfigProvider().reloadConfig();
         plugin.getDataManager().loadData();
-        plugin.getLanguageManager().sendMessage(sender, "commands.reload.success");
+        plugin.getLanguageProvider().sendMessage(sender, "commands.reload.success");
     }
 
     @Override

@@ -10,9 +10,9 @@ import me.eastrane.utilities.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class EastZombies extends JavaPlugin {
-    private ConfigManager configManager;
-    private LanguageManager languageManager;
-    private DebugManager debugManager;
+    private ConfigProvider configProvider;
+    private LanguageProvider languageProvider;
+    private DebugProvider debugProvider;
     private DataManager dataManager;
     private ListenerManager listenerManager;
     private HandlerManager handlerManager;
@@ -38,9 +38,9 @@ public final class EastZombies extends JavaPlugin {
     }
 
     private void registerManagers() {
-        getConfigManager();
-        getLanguageManager();
-        getDebugManager();
+        getConfigProvider();
+        getLanguageProvider();
+        getDebugProvider();
         getDataManager();
         getFeaturesManager();
         getListenerManager();
@@ -49,23 +49,23 @@ public final class EastZombies extends JavaPlugin {
         getItemManager();
     }
 
-    public ConfigManager getConfigManager() {
-        if (configManager == null) {
-            configManager = new ConfigManager(this);
+    public ConfigProvider getConfigProvider() {
+        if (configProvider == null) {
+            configProvider = new ConfigProvider(this);
         }
-        return configManager;
+        return configProvider;
     }
-    public LanguageManager getLanguageManager() {
-        if (languageManager == null) {
-            languageManager = new LanguageManager(this);
+    public LanguageProvider getLanguageProvider() {
+        if (languageProvider == null) {
+            languageProvider = new LanguageProvider(this);
         }
-        return languageManager;
+        return languageProvider;
     }
-    public DebugManager getDebugManager() {
-        if (debugManager == null) {
-            debugManager = new DebugManager(this);
+    public DebugProvider getDebugProvider() {
+        if (debugProvider == null) {
+            debugProvider = new DebugProvider(this);
         }
-        return debugManager;
+        return debugProvider;
     }
     public DataManager getDataManager() {
         if (dataManager == null) {

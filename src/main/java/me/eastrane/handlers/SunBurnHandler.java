@@ -2,14 +2,14 @@ package me.eastrane.handlers;
 
 import me.eastrane.EastZombies;
 import me.eastrane.handlers.core.BaseHandler;
-import me.eastrane.utilities.ConfigManager;
+import me.eastrane.utilities.ConfigProvider;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class SunBurnHandler extends BaseHandler {
-    private ConfigManager configManager;
+    private ConfigProvider configProvider;
     private BukkitTask task;
 
     public SunBurnHandler(EastZombies plugin, boolean isReloadable) {
@@ -17,11 +17,11 @@ public class SunBurnHandler extends BaseHandler {
     }
 
     protected boolean shouldRegister(long[] worldTime) {
-        configManager = plugin.getConfigManager();
-        return configManager.isSunBurn() &&
-                (worldTime[0] > configManager.getSunBurnDay()) ||
-                (worldTime[0] == configManager.getSunBurnDay() && !configManager.isSunBurnAtNight()) ||
-                (worldTime[0] == configManager.getSunBurnDay() && configManager.isSunBurnAtNight() && worldTime[1] >= 13000);
+        configProvider = plugin.getConfigProvider();
+        return configProvider.isSunBurn() &&
+                (worldTime[0] > configProvider.getSunBurnDay()) ||
+                (worldTime[0] == configProvider.getSunBurnDay() && !configProvider.isSunBurnAtNight()) ||
+                (worldTime[0] == configProvider.getSunBurnDay() && configProvider.isSunBurnAtNight() && worldTime[1] >= 13000);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class SunBurnHandler extends BaseHandler {
         World world = player.getWorld();
         if (world.isDayTime() && world.getHighestBlockAt(player.getLocation()).getY() <= player.getLocation().getY() && !player.isInWaterOrRain()) {
             player.setVisualFire(true);
-            int sunburnDamage = plugin.getConfigManager().getSunBurnDamage();
+            int sunburnDamage = plugin.getConfigProvider().getSunBurnDamage();
             if (sunburnDamage > 0) {
                 player.damage(sunburnDamage);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.damage(sunburnDamage), 20L);

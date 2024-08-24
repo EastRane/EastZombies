@@ -4,16 +4,16 @@ import de.maxhenkel.voicechat.api.*;
 import de.maxhenkel.voicechat.api.events.*;
 import me.eastrane.EastZombies;
 import me.eastrane.handlers.core.BaseHandler;
-import me.eastrane.utilities.ConfigManager;
-import me.eastrane.utilities.LanguageManager;
+import me.eastrane.utilities.ConfigProvider;
+import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class VoiceHandler extends BaseHandler implements VoicechatPlugin {
-    private final ConfigManager configManager;
-    private final LanguageManager languageManager;
+    private final ConfigProvider configProvider;
+    private final LanguageProvider languageProvider;
     private VoicechatServerApi api;
     private Group zombieGroup;
     private Group humanGroup;
@@ -26,8 +26,8 @@ public class VoiceHandler extends BaseHandler implements VoicechatPlugin {
         if (service != null) {
             service.registerPlugin(this);
         }
-        configManager = plugin.getConfigManager();
-        languageManager = plugin.getLanguageManager();
+        configProvider = plugin.getConfigProvider();
+        languageProvider = plugin.getLanguageProvider();
     }
 
     @Override
@@ -50,33 +50,33 @@ public class VoiceHandler extends BaseHandler implements VoicechatPlugin {
 
     private void onVoiceEnabled(VoicechatServerStartedEvent event) {
         api = event.getVoicechat();
-        if (configManager.isVoicePersistentGroups()) {
+        if (configProvider.isVoicePersistentGroups()) {
             createGroups();
         }
     }
 
     private void onPlayerJoin(PlayerConnectedEvent event) {
-        if (!configManager.isVoicePersistentGroups()) return;
-        if (!configManager.isVoiceJoinOnJoin()) return;
+        if (!configProvider.isVoicePersistentGroups()) return;
+        if (!configProvider.isVoiceJoinOnJoin()) return;
         connectToTeamGroup(convertPlayer(event.getConnection().getPlayer()));
     }
 
     private void onGroupCreate(CreateGroupEvent event) {
         if (event.getConnection() == null) return;
-        if (!configManager.isVoiceBlockGroupsCreation()) return;
+        if (!configProvider.isVoiceBlockGroupsCreation()) return;
 
-        languageManager.sendMessage(convertPlayer(event.getConnection().getPlayer()), "voicechat.errors.creation_blocked");
+        languageProvider.sendMessage(convertPlayer(event.getConnection().getPlayer()), "voicechat.errors.creation_blocked");
         event.cancel();
     }
 
     private void onGroupJoin(JoinGroupEvent event) {
-        if (!configManager.isVoicePersistentGroups()) return;
-        if (!configManager.isVoiceJoinTeamOnly()) return;
+        if (!configProvider.isVoicePersistentGroups()) return;
+        if (!configProvider.isVoiceJoinTeamOnly()) return;
 
         Player player = convertPlayer(event.getConnection().getPlayer());
         UUID playerTeam = plugin.getDataManager().isZombiePlayer(player) ? zombieGroupId : humanGroupId;
         if (!event.getGroup().getId().equals(playerTeam)) {
-            languageManager.sendMessage(player, "voicechat.errors.wrong_group");
+            languageProvider.sendMessage(player, "voicechat.errors.wrong_group");
             event.cancel();
         }
     }
@@ -89,12 +89,12 @@ public class VoiceHandler extends BaseHandler implements VoicechatPlugin {
     public void connectToTeamGroup(Player player) {
         VoicechatConnection connection = api.getConnectionOf(player.getUniqueId());
         if (connection == null) {
-            plugin.getDebugManager().sendWarning("Voice chat connection for player " + player.getName() + " could not be found.");
+            plugin.getDebugProvider().sendWarning("Voice chat connection for player " + player.getName() + " could not be found.");
             return;
         }
         Group teamGroup = plugin.getDataManager().isZombiePlayer(player) ? zombieGroup : humanGroup;
         connection.setGroup(teamGroup);
-        plugin.getDebugManager().sendInfo("Player " + player.getName() + " was connected to " + teamGroup.getName() + " voice group.");
+        plugin.getDebugProvider().sendInfo("Player " + player.getName() + " was connected to " + teamGroup.getName() + " voice group.");
     }
 
     private Player convertPlayer(ServerPlayer player) {

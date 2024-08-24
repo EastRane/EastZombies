@@ -1,7 +1,7 @@
 package me.eastrane.items.core;
 
 import me.eastrane.EastZombies;
-import me.eastrane.utilities.LanguageManager;
+import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -9,14 +9,14 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CooldownManager {
-    private final LanguageManager languageManager;
+    private final LanguageProvider languageProvider;
     private final Map<String, Map<UUID, Long>> cooldowns;
     private final Map<String, Long> cooldownDurations;
 
     public CooldownManager(EastZombies plugin) {
         this.cooldowns = new HashMap<>();
         this.cooldownDurations = new HashMap<>();
-        languageManager = plugin.getLanguageManager();
+        languageProvider = plugin.getLanguageProvider();
     }
 
     /**
@@ -45,7 +45,7 @@ public class CooldownManager {
             long cooldownDuration = cooldownDurations.get(itemId);
             if (timeElapsed < cooldownDuration) {
                 long timeLeft = ((cooldownDuration - timeElapsed) / 1000) + 1;
-                languageManager.sendMessage(player, "buffs." + itemId + ".cooldown", timeLeft);
+                languageProvider.sendMessage(player, "buffs." + itemId + ".cooldown", timeLeft);
                 return true;
             } else {
                 itemCooldowns.remove(playerId);

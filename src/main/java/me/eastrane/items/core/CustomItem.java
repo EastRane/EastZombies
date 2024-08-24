@@ -47,7 +47,7 @@ public abstract class CustomItem {
     public void register() {
         this.recipe = createRecipe();
         plugin.getServer().addRecipe(recipe);
-        plugin.getDebugManager().sendInfo(this.getClass().getSimpleName() + " was registered.");
+        plugin.getDebugProvider().sendInfo(this.getClass().getSimpleName() + " was registered.");
         isRegistered = true;
     }
 
@@ -56,7 +56,7 @@ public abstract class CustomItem {
      */
     public void unregister() {
         plugin.getServer().removeRecipe(this.getKey());
-        plugin.getDebugManager().sendInfo(this.getClass().getSimpleName() + " was unregistered.");
+        plugin.getDebugProvider().sendInfo(this.getClass().getSimpleName() + " was unregistered.");
         isRegistered = false;
 
     }

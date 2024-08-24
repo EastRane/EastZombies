@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MetricsProvider {
-    private ConfigManager configManager;
+    private ConfigProvider configProvider;
     public MetricsProvider(EastZombies plugin) {
-        configManager = plugin.getConfigManager();
+        configProvider = plugin.getConfigProvider();
         int pluginId = 22887;
         Metrics metrics = new Metrics(plugin, pluginId);
 
@@ -21,7 +21,7 @@ public class MetricsProvider {
     private void addCustomCharts(Metrics metrics) {
         metrics.addCustomChart(new DrilldownPie("language", () -> {
             Map<String, Map<String, Integer>> map = new HashMap<>();
-            String language = configManager.getLanguage();
+            String language = configProvider.getLanguage();
             Map<String, Integer> entry = new HashMap<>();
             entry.put(language, 1);
             if (language.equals("en_US")) {
@@ -36,12 +36,12 @@ public class MetricsProvider {
             return map;
         }));
 
-        metrics.addCustomChart(new SimplePie("target", () -> String.valueOf(configManager.isTarget())));
-        metrics.addCustomChart(new SimplePie("flesh", () -> String.valueOf(configManager.isFlesh())));
-        metrics.addCustomChart(new SimplePie("sunburn", () -> String.valueOf(configManager.isSunBurn())));
-        metrics.addCustomChart(new SimplePie("hunger", () -> String.valueOf(configManager.isHunger())));
-        metrics.addCustomChart(new SimplePie("golems", () -> String.valueOf(configManager.isGolems())));
-        metrics.addCustomChart(new SimplePie("zombie_compass", () -> String.valueOf(configManager.isZombieCompass())));
+        metrics.addCustomChart(new SimplePie("target", () -> String.valueOf(configProvider.isTarget())));
+        metrics.addCustomChart(new SimplePie("flesh", () -> String.valueOf(configProvider.isFlesh())));
+        metrics.addCustomChart(new SimplePie("sunburn", () -> String.valueOf(configProvider.isSunBurn())));
+        metrics.addCustomChart(new SimplePie("hunger", () -> String.valueOf(configProvider.isHunger())));
+        metrics.addCustomChart(new SimplePie("golems", () -> String.valueOf(configProvider.isGolems())));
+        metrics.addCustomChart(new SimplePie("zombie_compass", () -> String.valueOf(configProvider.isZombieCompass())));
 
     }
 }

@@ -11,15 +11,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class UpdateProvider extends BukkitRunnable {
-    private static final String UPDATE_JSON_URL = "https://eastrane.github.io/json/plugins.json";
-    private static String PLUGIN_NAME;
+    private final String UPDATE_JSON_URL = "https://eastrane.github.io/json/plugins.json";
+    private final String PLUGIN_NAME;
     private final String currentVersion;
     private final EastZombies plugin;
-    private final DebugManager debugManager;
+    private final DebugProvider debugProvider;
 
     public UpdateProvider(EastZombies plugin) {
         this.plugin = plugin;
-        debugManager = plugin.getDebugManager();
+        debugProvider = plugin.getDebugProvider();
         PLUGIN_NAME = plugin.getDescription().getName();
         this.currentVersion = plugin.getDescription().getVersion();
         startUpdateCheck();
@@ -48,19 +48,19 @@ public class UpdateProvider extends BukkitRunnable {
                 String message = jsonObject.get("message").getAsString();
                 if (name.equalsIgnoreCase(PLUGIN_NAME)) {
                     if (!version.equals(this.currentVersion)) {
-                        debugManager.sendWarning("A new update " + version + " is available. Current version: " + currentVersion);
-                        debugManager.sendWarning("Download here: " + downloadUrl);
+                        debugProvider.sendWarning("A new update " + version + " is available. Current version: " + currentVersion);
+                        debugProvider.sendWarning("Download here: " + downloadUrl);
                         if (message.isEmpty()) { return; }
-                        debugManager.sendWarning(message);
+                        debugProvider.sendWarning(message);
                     }
                 } else {
-                    debugManager.sendWarning("Error checking for updates.");
+                    debugProvider.sendWarning("Error checking for updates.");
                 }
             } else {
-                debugManager.sendWarning("Error checking for updates.");
+                debugProvider.sendWarning("Error checking for updates.");
             }
         } catch (Exception e) {
-            debugManager.sendException(e);
+            debugProvider.sendException(e);
         }
     }
 

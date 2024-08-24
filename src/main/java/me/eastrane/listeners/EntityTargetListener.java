@@ -2,7 +2,7 @@ package me.eastrane.listeners;
 
 import me.eastrane.EastZombies;
 import me.eastrane.listeners.core.BaseListener;
-import me.eastrane.utilities.ConfigManager;
+import me.eastrane.utilities.ConfigProvider;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 public class EntityTargetListener extends BaseListener implements Listener {
-    private ConfigManager configManager;
+    private ConfigProvider configProvider;
 
     public EntityTargetListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
@@ -19,11 +19,11 @@ public class EntityTargetListener extends BaseListener implements Listener {
 
     @Override
     protected boolean shouldRegister(long[] worldTime) {
-        configManager = plugin.getConfigManager();
-        return configManager.isTarget() &&
-                (worldTime[0] > configManager.getTargetDay()) ||
-                (worldTime[0] == configManager.getTargetDay() && !configManager.isTargetAtNight()) ||
-                (worldTime[0] == configManager.getTargetDay() && configManager.isTargetAtNight() && worldTime[1] >= 13000);
+        configProvider = plugin.getConfigProvider();
+        return configProvider.isTarget() &&
+                (worldTime[0] > configProvider.getTargetDay()) ||
+                (worldTime[0] == configProvider.getTargetDay() && !configProvider.isTargetAtNight()) ||
+                (worldTime[0] == configProvider.getTargetDay() && configProvider.isTargetAtNight() && worldTime[1] >= 13000);
     }
 
     @EventHandler

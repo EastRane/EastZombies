@@ -3,8 +3,8 @@ package me.eastrane.items;
 import me.eastrane.EastZombies;
 import me.eastrane.items.core.CustomItem;
 import me.eastrane.items.core.CustomItemType;
-import me.eastrane.utilities.ConfigManager;
-import me.eastrane.utilities.LanguageManager;
+import me.eastrane.utilities.ConfigProvider;
+import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ZombieCompassItem extends CustomItem {
-    private ConfigManager configManager;
+    private ConfigProvider configProvider;
 
     public ZombieCompassItem(EastZombies plugin) {
         super(plugin, CustomItemType.ZOMBIE_COMPASS);
@@ -24,28 +24,28 @@ public class ZombieCompassItem extends CustomItem {
 
     @Override
     protected boolean shouldRegister(long[] worldTime) {
-        configManager = plugin.getConfigManager();
-        return configManager.isZombieCompass() &&
-                (worldTime[0] > configManager.getZombieCompassDay()) ||
-                (worldTime[0] == configManager.getZombieCompassDay() && !configManager.isZombieCompassAtNight()) ||
-                (worldTime[0] == configManager.getZombieCompassDay() && configManager.isZombieCompassAtNight() && worldTime[1] >= 13000);
+        configProvider = plugin.getConfigProvider();
+        return configProvider.isZombieCompass() &&
+                (worldTime[0] > configProvider.getZombieCompassDay()) ||
+                (worldTime[0] == configProvider.getZombieCompassDay() && !configProvider.isZombieCompassAtNight()) ||
+                (worldTime[0] == configProvider.getZombieCompassDay() && configProvider.isZombieCompassAtNight() && worldTime[1] >= 13000);
     }
 
     @Override
     protected ItemStack createItemStack() {
-        LanguageManager languageManager = plugin.getLanguageManager();
+        LanguageProvider languageProvider = plugin.getLanguageProvider();
         ItemStack itemStack = new ItemStack(Material.COMPASS);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING, getIdentifier());
-        itemMeta.setDisplayName(languageManager.Colorize(languageManager.getTranslation("buffs.zombie_compass.name")));
-        itemMeta.setLore(List.of(languageManager.Colorize(languageManager.getTranslation("buffs.zombie_compass.lore"))));
+        itemMeta.setDisplayName(languageProvider.Colorize(languageProvider.getTranslation("buffs.zombie_compass.name")));
+        itemMeta.setLore(List.of(languageProvider.Colorize(languageProvider.getTranslation("buffs.zombie_compass.lore"))));
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
     @Override
     protected ShapedRecipe createRecipe() {
-        List<String> recipeRows = plugin.getConfigManager().getZombieCompassRecipe();
+        List<String> recipeRows = plugin.getConfigProvider().getZombieCompassRecipe();
         Map<String, Character> materialToLetter = new HashMap<>();
         Map<Character, Material> letterToMaterial = new HashMap<>();
         char letter = 'A';

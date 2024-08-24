@@ -2,7 +2,7 @@ package me.eastrane.handlers;
 
 import me.eastrane.EastZombies;
 import me.eastrane.handlers.core.BaseHandler;
-import me.eastrane.utilities.DebugManager;
+import me.eastrane.utilities.DebugProvider;
 import net.skinsrestorer.api.SkinsRestorer;
 import net.skinsrestorer.api.SkinsRestorerProvider;
 import net.skinsrestorer.api.exception.DataRequestException;
@@ -18,11 +18,11 @@ import java.util.UUID;
 
 public class SkinsHandler extends BaseHandler {
     private final EastZombies plugin;
-    private final DebugManager debugManager;
+    private final DebugProvider debugProvider;
     public SkinsHandler(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
         this.plugin = plugin;
-        debugManager = plugin.getDebugManager();
+        debugProvider = plugin.getDebugProvider();
         this.skinsRestorerAPI = SkinsRestorerProvider.get();
         this.skinStorage = skinsRestorerAPI.getSkinStorage();
     }
@@ -44,13 +44,13 @@ public class SkinsHandler extends BaseHandler {
         PlayerStorage playerStorage = skinsRestorerAPI.getPlayerStorage();
         playerStorage.setSkinIdOfPlayer(player.getUniqueId(), result.get().getIdentifier());
         skinsRestorerAPI.getSkinApplier(Player.class).applySkin(player);
-        debugManager.sendInfo(player.getName() + " received a zombie skin.");
+        debugProvider.sendInfo(player.getName() + " received a zombie skin.");
     }
     public void clearSkin(UUID player) throws DataRequestException {
         Player p = plugin.getServer().getPlayer(player);
         PlayerStorage playerStorage = skinsRestorerAPI.getPlayerStorage();
         playerStorage.removeSkinIdOfPlayer(player);
         skinsRestorerAPI.getSkinApplier(Player.class).applySkin(p);
-        debugManager.sendInfo(p.getName() + "'s skin was cleared.");
+        debugProvider.sendInfo(p.getName() + "'s skin was cleared.");
     }
 }
