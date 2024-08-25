@@ -18,6 +18,7 @@ public class ListenerManager {
         registerListener(new PlayerDeathListener(plugin, true));
         registerListener(new JoinQuitListener(plugin, true));
         registerListener(new RestrictedCommandsListener(plugin, true));
+        registerListener(new EffectChangeListener(plugin, true));
         registerListener(new EntityTargetListener(plugin, true));
         registerListener(new ItemConsumeListener(plugin, true));
         registerListener(new EntityDamageByEntityListener(plugin, true));

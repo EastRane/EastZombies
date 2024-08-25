@@ -44,7 +44,11 @@ public class EffectsHandler extends BaseHandler {
             if (potionEffectType != null) {
                 int amplifier = (int) effect.get("amplifier");
                 int duration = (int) effect.get("duration");
+                PotionEffect currentEffect = player.getPotionEffect(potionEffectType);
                 if (apply) {
+                    if (currentEffect != null) {
+                        continue;
+                    }
                     player.addPotionEffect(new PotionEffect(potionEffectType, duration, amplifier));
                     debugProvider.sendInfo(player.getName() + " received effect: " + effectName +
                             " (amplifier: " + amplifier + ", duration: " + duration + ")");

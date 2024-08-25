@@ -81,15 +81,7 @@ public class PlayerDeathListener extends BaseListener implements Listener {
             player.setRespawnLocation(null);
             plugin.getDebugProvider().sendInfo(player.getName() + " was respawned at his death location because he has just turned into a zombie.");
         }
-        // We need to apply effects again, after respawn, because PlayerManager does it on death
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (configProvider.isEffects() && baseStorage.isZombie(player)) {
-                    plugin.getEffectsHandler().giveZombieEffects(player);
-                }
-            }
-        }.runTaskLater(plugin, 0);
+
         player.setNoDamageTicks(configProvider.getInvulnerability());
     }
 }
