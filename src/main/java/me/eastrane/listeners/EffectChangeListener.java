@@ -36,7 +36,6 @@ public class EffectChangeListener extends BaseListener implements Listener {
         if (!baseStorage.isZombie(player)) return;
 
         EntityPotionEffectEvent.Cause cause = event.getCause();
-        plugin.getDebugProvider().sendInfo(String.valueOf(event.getAction()));
         if (cause == EntityPotionEffectEvent.Cause.MILK) {
             event.setCancelled(true);
         } else if (cause == EntityPotionEffectEvent.Cause.TOTEM) {

@@ -10,7 +10,6 @@ import me.eastrane.storages.YamlStorage;
 import me.eastrane.storages.core.BaseStorage;
 import me.eastrane.utilities.*;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.yaml.snakeyaml.Yaml;
 
 public final class EastZombies extends JavaPlugin {
     private ConfigProvider configProvider;
