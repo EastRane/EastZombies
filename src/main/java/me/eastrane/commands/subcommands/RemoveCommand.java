@@ -43,7 +43,7 @@ public class RemoveCommand extends SubCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, String[] args) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         if (args.length == 2) {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 list.add(p.getName());

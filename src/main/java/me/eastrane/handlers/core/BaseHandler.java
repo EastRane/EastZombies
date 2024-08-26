@@ -3,8 +3,8 @@ package me.eastrane.handlers.core;
 import me.eastrane.EastZombies;
 
 public abstract class BaseHandler {
-    protected EastZombies plugin;
-    protected long[] worldTime;
+    protected final EastZombies plugin;
+    protected final long[] worldTime;
     private boolean isRegistered = false;
     protected final boolean isReloadable;
 

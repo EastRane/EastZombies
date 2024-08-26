@@ -67,6 +67,6 @@ public class BorderShrinkHandler extends BaseHandler {
                     plugin.getLanguageProvider().broadcastMessage("broadcasts.border_shrink", shrinkAmount, shrinkDuration);
                 }
             }
-        }.runTaskTimer(plugin, 0L, shrinkInterval * 20L); // Convert minutes to ticks
+        }.runTaskTimer(plugin, 0L, shrinkInterval * 20L);
     }
 }

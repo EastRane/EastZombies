@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public class TeamHandler extends BaseHandler {
     private final EastZombies plugin;
-    ScoreboardManager manager;
-    Scoreboard board;
+    private final ScoreboardManager manager;
+    private final Scoreboard board;
     private Team zombieTeam;
 
     public TeamHandler(EastZombies plugin, boolean isReloadable) {

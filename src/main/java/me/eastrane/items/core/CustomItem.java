@@ -6,12 +6,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
 public abstract class CustomItem {
-    protected EastZombies plugin;
-    protected NamespacedKey key;
-    protected ItemStack itemStack;
+    protected final EastZombies plugin;
+    protected final NamespacedKey key;
+    protected final ItemStack itemStack;
     protected ShapedRecipe recipe;
-    protected CustomItemType type;
-    protected long[] worldTime;
+    protected final CustomItemType type;
+    protected final long[] worldTime;
     private boolean isRegistered = false;
 
     public CustomItem(EastZombies plugin, CustomItemType type) {

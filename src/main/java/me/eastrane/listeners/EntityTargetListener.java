@@ -30,8 +30,7 @@ public class EntityTargetListener extends BaseListener implements Listener {
     public void onHostileMobTarget(EntityTargetEvent event) {
         Entity entity = event.getEntity();
         Entity target = event.getTarget();
-        if (target instanceof Player) {
-            Player player = (Player) target;
+        if (target instanceof Player player) {
             if (plugin.getBaseStorage().isZombie(player) && entity instanceof Monster) {
                 event.setCancelled(true);
             }

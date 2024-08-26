@@ -8,7 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.UUID;
 
 public class PlayerManager {
-    private EastZombies plugin;
+    private final EastZombies plugin;
     private final ConfigProvider configProvider;
     private final BaseStorage baseStorage;
 

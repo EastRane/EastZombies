@@ -5,8 +5,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.HandlerList;
 
 public abstract class BaseListener implements Listener {
-    protected EastZombies plugin;
-    protected long[] worldTime;
+    protected final EastZombies plugin;
+    protected final long[] worldTime;
     private boolean isRegistered = false;
     private final boolean isReloadable;
 

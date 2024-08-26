@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public abstract class BaseStorage {
-    protected EastZombies plugin;
-    protected DebugProvider debugProvider;
+    protected final EastZombies plugin;
+    protected final DebugProvider debugProvider;
     protected final Map<UUID, String> zombies = new LinkedHashMap<>();
 
     public BaseStorage(EastZombies plugin) {

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MetricsProvider {
-    private ConfigProvider configProvider;
+    private final ConfigProvider configProvider;
     public MetricsProvider(EastZombies plugin) {
         configProvider = plugin.getConfigProvider();
         int pluginId = 22887;
@@ -24,14 +24,11 @@ public class MetricsProvider {
             String language = configProvider.getLanguage();
             Map<String, Integer> entry = new HashMap<>();
             entry.put(language, 1);
-            if (language.equals("en_US")) {
-                map.put("English", entry);
-            } else if (language.equals("ru_RU")) {
-                map.put("Russian", entry);
-            } else if (language.equals("uk_UA")) {
-                map.put("Ukrainian", entry);
-            } else {
-                map.put("Other", entry);
+            switch (language) {
+                case "en_US" -> map.put("English", entry);
+                case "ru_RU" -> map.put("Russian", entry);
+                case "uk_UA" -> map.put("Ukrainian", entry);
+                default -> map.put("Other", entry);
             }
             return map;
         }));

@@ -47,7 +47,7 @@ public class ItemManager {
      *
      * @param worldTime The current world time.
      * @return A map containing the names of custom items and their registration status changes.
-     *         If a item's registration status does not change, it is not included in the map.
+     *         If an item's registration status does not change, it is not included in the map.
      */
     public Map<String, Boolean> recheckItems(long[] worldTime) {
         Map<String, Boolean> changes = new HashMap<>();

@@ -17,7 +17,6 @@ import java.util.List;
 public class StatusCommand extends SubCommand {
     private final ConfigProvider configProvider;
     private final LanguageProvider languageProvider;
-    private final BaseStorage baseStorage;
     private final ListenerManager listenerManager;
     private final HandlerManager handlerManager;
     private final ItemManager itemManager;
@@ -26,7 +25,6 @@ public class StatusCommand extends SubCommand {
         this.plugin = plugin;
         configProvider = plugin.getConfigProvider();
         languageProvider = plugin.getLanguageProvider();
-        baseStorage = plugin.getBaseStorage();
         listenerManager = plugin.getListenerManager();
         handlerManager = plugin.getHandlerManager();
         itemManager = plugin.getItemManager();
