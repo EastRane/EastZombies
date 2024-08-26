@@ -1,11 +1,7 @@
 package me.eastrane.handlers.core;
 
 import me.eastrane.EastZombies;
-import me.eastrane.handlers.EffectsHandler;
-import me.eastrane.handlers.SkinsHandler;
-import me.eastrane.handlers.SunBurnHandler;
-import me.eastrane.handlers.TeamHandler;
-import me.eastrane.handlers.IronGolemAttackHandler;
+import me.eastrane.handlers.*;
 import me.eastrane.utilities.ConfigProvider;
 import me.eastrane.utilities.DebugProvider;
 
@@ -48,9 +44,9 @@ public class HandlerManager {
                 debugProvider.sendException(e);
             }
         }
-
         registerHandler(new SunBurnHandler(plugin, true));
         registerHandler(new IronGolemAttackHandler(plugin, true));
+        registerHandler(new BorderShrinkHandler(plugin, true));
     }
 
     private void registerHandler(BaseHandler handler) {

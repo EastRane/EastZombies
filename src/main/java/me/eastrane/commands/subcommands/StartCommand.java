@@ -2,10 +2,12 @@ package me.eastrane.commands.subcommands;
 
 import me.eastrane.EastZombies;
 import me.eastrane.storages.core.BaseStorage;
+import me.eastrane.utilities.ConfigProvider;
 import me.eastrane.utilities.LanguageProvider;
 import org.bukkit.GameRule;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.WorldBorder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,12 +17,14 @@ import java.util.UUID;
 
 public class StartCommand extends SubCommand {
     private final BaseStorage baseStorage;
+    private final ConfigProvider configProvider;
     private final LanguageProvider languageProvider;
 
     public StartCommand(EastZombies plugin) {
         this.plugin = plugin;
-        baseStorage = plugin.getBaseStorage();
+        configProvider = plugin.getConfigProvider();
         languageProvider = plugin.getLanguageProvider();
+        baseStorage = plugin.getBaseStorage();
     }
 
     @Override
@@ -36,6 +40,16 @@ public class StartCommand extends SubCommand {
         world.setFullTime(0);
         world.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 1000);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+
+        double initialRadius = configProvider.getWorldBorderInitialRadius();
+        if (initialRadius > 0) {
+            WorldBorder worldBorder = world.getWorldBorder();
+            double centerX = configProvider.getWorldBorderCenterX();
+            double centerZ = configProvider.getWorldBorderCenterZ();
+            worldBorder.setCenter(centerX, centerZ);
+            worldBorder.setSize(initialRadius * 2);
+        }
+
         for (OfflinePlayer player : plugin.getServer().getOfflinePlayers()) {
             if (baseStorage.isZombie(player)) {
                 UUID playerId = player.getUniqueId();

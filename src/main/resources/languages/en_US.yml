@@ -41,6 +41,7 @@ debuffs:
 broadcasts:
   player_turned_zombie: '&f%s &ahas turned into a zombie!'
   day: '&aDay %s'
+  border_shrink: 'The world border will shrink by %s blocks in %s seconds.'
 voicechat:
   errors:
     wrong_group: "&cYou can only be in your team's group."

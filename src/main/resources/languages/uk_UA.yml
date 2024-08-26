@@ -41,6 +41,7 @@ debuffs:
 broadcasts:
   player_turned_zombie: '&f%s&a перетворився на зомбі!'
   day: '&aДень %s'
+  border_shrink: 'Кордон світу зменшиться на %s блоків через %s секунд.'
 voicechat:
   errors:
     wrong_group: "&cВи можете знаходитися лише в групі вашої команди."

@@ -24,7 +24,7 @@ player:
     amount: 4
   # Player's invulnerability after respawn
   # Duration in ticks (0 to disable).
-  invulnerability: 300
+  invulnerability: 60
   # Effects applied to zombie players.
   effects:
     enabled: true
@@ -59,6 +59,29 @@ player:
       on_death: true
       # If true, humans cannot join "Zombies" group and zombies cannot join "Humans" group
       team_only: true
+
+world:
+  # Initial world border will be set when using /ez start
+  border:
+    # Initial radius of the world border in blocks (set 0 to disable)
+    initial_radius: 500
+    # X coordinate of the world border center
+    center_x: 0
+    # Z coordinate of the world border center
+    center_z: 0
+    shrink:
+      # If true, the world border will shrink over time
+      enabled: false
+      # The day on which the border starts shrinking
+      start_day: 10
+      # Interval between each shrink in seconds
+      interval: 1200
+      # Amount of blocks to shrink the radius by each interval
+      amount: 50
+      # Duration of the shrinking process in seconds
+      duration: 300
+      # Minimum radius the border can shrink to
+      min_radius: 250
 
 features:
   target:

@@ -14,6 +14,9 @@ public class ConfigProvider extends BaseConfig {
     private boolean broadcastDay, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
     private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
     private boolean voiceBlockGroupsCreation, voicePersistentGroups, voiceJoinOnJoin, voiceJoinOnDeath, voiceJoinTeamOnly;
+    private int worldBorderInitialRadius, worldBorderCenterX, worldBorderCenterZ;
+    private boolean worldBorderShrinkEnabled;
+    private int worldBorderShrinkStartDay, worldBorderShrinkInterval, worldBorderShrinkAmount, worldBorderShrinkDuration, worldBorderShrinkMinRadius;
     private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
     private int dropFleshAmount, invulnerability, sunBurnDamage, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
@@ -43,6 +46,16 @@ public class ConfigProvider extends BaseConfig {
         voiceJoinOnJoin = config.getBoolean("player.voicechat.join.on_join");
         voiceJoinOnDeath = config.getBoolean("player.voicechat.join.on_death");
         voiceJoinTeamOnly = config.getBoolean("player.voicechat.join.team_only");
+
+        worldBorderInitialRadius = config.getInt("world.border.initial_radius");
+        worldBorderCenterX = config.getInt("world.border.center_x");
+        worldBorderCenterZ = config.getInt("world.border.center_z");
+        worldBorderShrinkEnabled = config.getBoolean("world.border.shrink.enabled");
+        worldBorderShrinkStartDay = config.getInt("world.border.shrink.start_day");
+        worldBorderShrinkInterval = config.getInt("world.border.shrink.interval");
+        worldBorderShrinkAmount = config.getInt("world.border.shrink.amount");
+        worldBorderShrinkDuration = config.getInt("world.border.shrink.duration");
+        worldBorderShrinkMinRadius = config.getInt("world.border.shrink.min_radius");
 
         target = config.getBoolean("features.target.enabled");
         targetDay = config.getInt("features.target.start_day");
@@ -126,6 +139,34 @@ public class ConfigProvider extends BaseConfig {
     }
     public boolean isVoiceBlockGroupsCreation() {
         return voiceBlockGroupsCreation;
+    }
+
+    public int getWorldBorderInitialRadius() {
+        return worldBorderInitialRadius;
+    }
+    public int getWorldBorderCenterZ() {
+        return worldBorderCenterZ;
+    }
+    public int getWorldBorderCenterX() {
+        return worldBorderCenterX;
+    }
+    public boolean isWorldBorderShrinkEnabled() {
+        return worldBorderShrinkEnabled;
+    }
+    public int getWorldBorderShrinkStartDay() {
+        return worldBorderShrinkStartDay;
+    }
+    public int getWorldBorderShrinkInterval() {
+        return worldBorderShrinkInterval;
+    }
+    public int getWorldBorderShrinkAmount() {
+        return worldBorderShrinkAmount;
+    }
+    public int getWorldBorderShrinkDuration() {
+        return worldBorderShrinkDuration;
+    }
+    public int getWorldBorderShrinkMinRadius() {
+        return worldBorderShrinkMinRadius;
     }
 
     public boolean isTarget() {
