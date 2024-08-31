@@ -20,7 +20,9 @@ public class BorderShrinkHandler extends BaseHandler {
         this.configProvider = plugin.getConfigProvider();
         return configProvider.isWorldBorderShrinkEnabled() &&
                 (configProvider.getWorldBorderInitialRadius() > 0) &&
-                (worldTime[0] >= configProvider.getWorldBorderShrinkStartDay());
+                (worldTime[0] >= (configProvider.getWorldBorderShrinkStartDay() - 1));
+        // If a user restarts the server with the current day being greater than the ShrinkStartDay, the shrink will start immediately.
+        // And we don't want it. That's why we start this task with the delay on the day before.
     }
 
     @Override
@@ -67,6 +69,6 @@ public class BorderShrinkHandler extends BaseHandler {
                     plugin.getLanguageProvider().broadcastMessage("broadcasts.border_shrink", shrinkAmount, shrinkDuration);
                 }
             }
-        }.runTaskTimer(plugin, 0L, shrinkInterval * 20L);
+        }.runTaskTimer(plugin, 24000L, shrinkInterval * 20L);
     }
 }
