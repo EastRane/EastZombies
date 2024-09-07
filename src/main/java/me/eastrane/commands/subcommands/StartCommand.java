@@ -41,11 +41,11 @@ public class StartCommand extends SubCommand {
         world.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 1000);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
 
-        double initialRadius = configProvider.getWorldBorderInitialRadius();
+        double initialRadius = configProvider.getBorderInitialRadius();
         if (initialRadius > 0) {
             WorldBorder worldBorder = world.getWorldBorder();
-            double centerX = configProvider.getWorldBorderCenterX();
-            double centerZ = configProvider.getWorldBorderCenterZ();
+            double centerX = configProvider.getBorderCenterX();
+            double centerZ = configProvider.getBorderCenterZ();
             worldBorder.setCenter(centerX, centerZ);
             worldBorder.setSize(initialRadius * 2);
         }

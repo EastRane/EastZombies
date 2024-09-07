@@ -13,10 +13,10 @@ public class ConfigProvider extends BaseConfig {
     private boolean debugConsole, debugFile;
     private boolean broadcastDay, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
     private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
-    private boolean voiceBlockGroupsCreation, voicePersistentGroups, voiceJoinOnJoin, voiceJoinOnDeath, voiceJoinTeamOnly;
-    private int worldBorderInitialRadius, worldBorderCenterX, worldBorderCenterZ;
-    private boolean worldBorderShrinkEnabled;
-    private int worldBorderShrinkStartDay, worldBorderShrinkInterval, worldBorderShrinkAmount, worldBorderShrinkDuration, worldBorderShrinkMinRadius;
+    private boolean voiceChatBlockGroupsCreation, voiceChatPersistentGroups, voiceChatJoinOnJoin, voiceChatJoinOnDeath, voiceChatJoinTeamOnly, friendlyFireZombies, friendlyFireHumans;
+    private int borderInitialRadius, borderCenterX, borderCenterZ;
+    private boolean borderShrinkEnabled;
+    private int borderShrinkStartDay, borderShrinkInterval, borderShrinkAmount, borderShrinkDuration, borderShrinkMinRadius;
     private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
     private int dropFleshAmount, invulnerability, sunBurnDamage, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
@@ -27,6 +27,7 @@ public class ConfigProvider extends BaseConfig {
         super(plugin);
     }
 
+    @Override
     public void loadCustomConfig() {
         language = config.getString("language");
         debugConsole = config.getBoolean("debug.console");
@@ -41,39 +42,48 @@ public class ConfigProvider extends BaseConfig {
         effects = config.getBoolean("player.effects.enabled");
         effectsList = config.getMapList("player.effects.list");
         restrictedCommandsList = config.getList("player.restricted_commands");
-        voiceBlockGroupsCreation = config.getBoolean("player.voicechat.block_groups_creation");
-        voicePersistentGroups = config.getBoolean("player.voicechat.persistent_groups");
-        voiceJoinOnJoin = config.getBoolean("player.voicechat.join.on_join");
-        voiceJoinOnDeath = config.getBoolean("player.voicechat.join.on_death");
-        voiceJoinTeamOnly = config.getBoolean("player.voicechat.join.team_only");
 
-        worldBorderInitialRadius = config.getInt("world.border.initial_radius");
-        worldBorderCenterX = config.getInt("world.border.center_x");
-        worldBorderCenterZ = config.getInt("world.border.center_z");
-        worldBorderShrinkEnabled = config.getBoolean("world.border.shrink.enabled");
-        worldBorderShrinkStartDay = config.getInt("world.border.shrink.start_day");
-        worldBorderShrinkInterval = config.getInt("world.border.shrink.interval");
-        worldBorderShrinkAmount = config.getInt("world.border.shrink.amount");
-        worldBorderShrinkDuration = config.getInt("world.border.shrink.duration");
-        worldBorderShrinkMinRadius = config.getInt("world.border.shrink.min_radius");
+        voiceChatBlockGroupsCreation = config.getBoolean("teams.voicechat.block_groups_creation");
+        voiceChatPersistentGroups = config.getBoolean("teams.voicechat.persistent_groups");
+        voiceChatJoinOnJoin = config.getBoolean("teams.voicechat.join.on_join");
+        voiceChatJoinOnDeath = config.getBoolean("teams.voicechat.join.on_death");
+        voiceChatJoinTeamOnly = config.getBoolean("teams.voicechat.join.team_only");
+
+        friendlyFireZombies = config.getBoolean("teams.friendly_fire.zombies");
+        friendlyFireHumans = config.getBoolean("teams.friendly_fire.humans");
+
+        borderInitialRadius = config.getInt("world.border.initial_radius");
+        borderCenterX = config.getInt("world.border.center_x");
+        borderCenterZ = config.getInt("world.border.center_z");
+        borderShrinkEnabled = config.getBoolean("world.border.shrink.enabled");
+        borderShrinkStartDay = config.getInt("world.border.shrink.start_day");
+        borderShrinkInterval = config.getInt("world.border.shrink.interval");
+        borderShrinkAmount = config.getInt("world.border.shrink.amount");
+        borderShrinkDuration = config.getInt("world.border.shrink.duration");
+        borderShrinkMinRadius = config.getInt("world.border.shrink.min_radius");
 
         target = config.getBoolean("features.target.enabled");
         targetDay = config.getInt("features.target.start_day");
         targetAtNight = config.getBoolean("features.target.at_night");
+
         flesh = config.getBoolean("features.flesh.enabled");
         fleshDay = config.getInt("features.flesh.start_day");
         fleshAtNight = config.getBoolean("features.flesh.at_night");
+
         sunBurn = config.getBoolean("features.sun_burn.enabled");
         sunBurnDay = config.getInt("features.sun_burn.start_day");
         sunBurnAtNight = config.getBoolean("features.sun_burn.at_night");
         sunBurnDamage = config.getInt("features.sun_burn.damage");
+
         hunger = config.getBoolean("features.hunger.enabled");
         hungerDay = config.getInt("features.hunger.start_day");
         hungerAtNight = config.getBoolean("features.hunger.at_night");
         hungerDuration = config.getInt("features.hunger.duration");
+
         golems = config.getBoolean("features.golems.enabled");
         golemsDay = config.getInt("features.golems.start_day");
         golemsAtNight = config.getBoolean("features.golems.at_night");
+
         zombieCompass = config.getBoolean("features.zombie_compass.enabled");
         zombieCompassDay = config.getInt("features.zombie_compass.start_day");
         zombieCompassAtNight = config.getBoolean("features.zombie_compass.at_night");
@@ -84,7 +94,8 @@ public class ConfigProvider extends BaseConfig {
         zombieCompassRecipe.add(config.getString("features.zombie_compass.recipe.third_row"));
     }
 
-    public void reloadCustomConfig() {
+    @Override
+    protected void reloadCustomConfig() {
         plugin.getFeaturesManager().reactivateEvents();
     }
 
@@ -125,48 +136,56 @@ public class ConfigProvider extends BaseConfig {
         return effectsList;
     }
     public List<?> getRestrictedCommandsList() { return restrictedCommandsList; }
+
     public boolean isVoicePersistentGroups() {
-        return voicePersistentGroups;
+        return voiceChatPersistentGroups;
     }
     public boolean isVoiceJoinOnJoin() {
-        return voiceJoinOnJoin;
+        return voiceChatJoinOnJoin;
     }
     public boolean isVoiceJoinOnDeath() {
-        return voiceJoinOnDeath;
+        return voiceChatJoinOnDeath;
     }
     public boolean isVoiceJoinTeamOnly() {
-        return voiceJoinTeamOnly;
+        return voiceChatJoinTeamOnly;
     }
     public boolean isVoiceBlockGroupsCreation() {
-        return voiceBlockGroupsCreation;
+        return voiceChatBlockGroupsCreation;
     }
 
-    public int getWorldBorderInitialRadius() {
-        return worldBorderInitialRadius;
+    public boolean isFriendlyFireZombies() {
+        return friendlyFireZombies;
     }
-    public int getWorldBorderCenterZ() {
-        return worldBorderCenterZ;
+    public boolean isFriendlyFireHumans() {
+        return friendlyFireHumans;
     }
-    public int getWorldBorderCenterX() {
-        return worldBorderCenterX;
+
+    public int getBorderInitialRadius() {
+        return borderInitialRadius;
     }
-    public boolean isWorldBorderShrinkEnabled() {
-        return worldBorderShrinkEnabled;
+    public int getBorderCenterZ() {
+        return borderCenterZ;
     }
-    public int getWorldBorderShrinkStartDay() {
-        return worldBorderShrinkStartDay;
+    public int getBorderCenterX() {
+        return borderCenterX;
     }
-    public int getWorldBorderShrinkInterval() {
-        return worldBorderShrinkInterval;
+    public boolean isBorderShrinkEnabled() {
+        return borderShrinkEnabled;
     }
-    public int getWorldBorderShrinkAmount() {
-        return worldBorderShrinkAmount;
+    public int getBorderShrinkStartDay() {
+        return borderShrinkStartDay;
     }
-    public int getWorldBorderShrinkDuration() {
-        return worldBorderShrinkDuration;
+    public int getBorderShrinkInterval() {
+        return borderShrinkInterval;
     }
-    public int getWorldBorderShrinkMinRadius() {
-        return worldBorderShrinkMinRadius;
+    public int getBorderShrinkAmount() {
+        return borderShrinkAmount;
+    }
+    public int getBorderShrinkDuration() {
+        return borderShrinkDuration;
+    }
+    public int getBorderShrinkMinRadius() {
+        return borderShrinkMinRadius;
     }
 
     public boolean isTarget() {
@@ -178,6 +197,7 @@ public class ConfigProvider extends BaseConfig {
     public boolean isTargetAtNight() {
         return targetAtNight;
     }
+
     public boolean isFlesh() {
         return flesh;
     }
@@ -187,6 +207,7 @@ public class ConfigProvider extends BaseConfig {
     public boolean isFleshAtNight() {
         return fleshAtNight;
     }
+
     public boolean isSunBurn() {
         return sunBurn;
     }
@@ -199,6 +220,7 @@ public class ConfigProvider extends BaseConfig {
     public int getSunBurnDamage() {
         return sunBurnDamage;
     }
+
     public boolean isHunger() {
         return hunger;
     }
@@ -211,6 +233,7 @@ public class ConfigProvider extends BaseConfig {
     public int getHungerDuration() {
         return hungerDuration;
     }
+
     public boolean isGolems() {
         return golems;
     }
@@ -220,6 +243,7 @@ public class ConfigProvider extends BaseConfig {
     public boolean isGolemsAtNight() {
         return golemsAtNight;
     }
+
     public boolean isZombieCompass() {
         return zombieCompass;
     }
@@ -229,8 +253,8 @@ public class ConfigProvider extends BaseConfig {
     public boolean isZombieCompassAtNight() {
         return zombieCompassAtNight;
     }
-    public List<String> getZombieCompassRecipe() { return zombieCompassRecipe; }
     public int getZombieCompassCooldown() {
         return zombieCompassCooldown;
     }
+    public List<String> getZombieCompassRecipe() { return zombieCompassRecipe; }
 }

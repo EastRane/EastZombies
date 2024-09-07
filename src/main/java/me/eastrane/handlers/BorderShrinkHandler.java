@@ -18,9 +18,9 @@ public class BorderShrinkHandler extends BaseHandler {
 
     protected boolean shouldRegister(long[] worldTime) {
         this.configProvider = plugin.getConfigProvider();
-        return configProvider.isWorldBorderShrinkEnabled() &&
-                (configProvider.getWorldBorderInitialRadius() > 0) &&
-                (worldTime[0] >= (configProvider.getWorldBorderShrinkStartDay() - 1));
+        return configProvider.isBorderShrinkEnabled() &&
+                (configProvider.getBorderInitialRadius() > 0) &&
+                (worldTime[0] >= (configProvider.getBorderShrinkStartDay() - 1));
         // If a user restarts the server with the current day being greater than the ShrinkStartDay, the shrink will start immediately.
         // And we don't want it. That's why we start this task with the delay on the day before.
     }
@@ -41,26 +41,26 @@ public class BorderShrinkHandler extends BaseHandler {
         if (isReloadable && task != null && !task.isCancelled()) {
             super.unregister();
             task.cancel();
-            worldBorder.setSize(configProvider.getWorldBorderInitialRadius() * 2);
+            worldBorder.setSize(configProvider.getBorderInitialRadius() * 2);
             return true;
         }
         return false;
     }
 
     private void activateTask() {
-        double initialRadius = configProvider.getWorldBorderInitialRadius();
-        int shrinkInterval = configProvider.getWorldBorderShrinkInterval();
-        int shrinkAmount = configProvider.getWorldBorderShrinkAmount();
-        int shrinkDuration = configProvider.getWorldBorderShrinkDuration();
-        double minRadius = configProvider.getWorldBorderShrinkMinRadius();
+        double initialRadius = configProvider.getBorderInitialRadius();
+        int shrinkInterval = configProvider.getBorderShrinkInterval();
+        int shrinkAmount = configProvider.getBorderShrinkAmount();
+        int shrinkDuration = configProvider.getBorderShrinkDuration();
+        double minRadius = configProvider.getBorderShrinkMinRadius();
 
         task = new BukkitRunnable() {
             @Override
             public void run() {
                 double currentSize = worldBorder.getSize();
                 if (initialRadius > 0 && currentSize > initialRadius) {
-                    double centerX = configProvider.getWorldBorderCenterX();
-                    double centerZ = configProvider.getWorldBorderCenterZ();
+                    double centerX = configProvider.getBorderCenterX();
+                    double centerZ = configProvider.getBorderCenterZ();
                     worldBorder.setCenter(centerX, centerZ);
                 }
                 double newSize = Math.max(currentSize - (shrinkAmount * 2), minRadius * 2);
