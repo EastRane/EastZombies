@@ -3,14 +3,19 @@ package me.eastrane.handlers;
 import me.eastrane.EastZombies;
 import me.eastrane.handlers.core.BaseHandler;
 import me.eastrane.utilities.ConfigProvider;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class SunBurnHandler extends BaseHandler {
     private ConfigProvider configProvider;
     private BukkitTask task;
+    boolean sunBurnHelmetProtection;
+    int sunBurnDamage, sunBurnHelmetDurabilityLoss;
 
     public SunBurnHandler(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
@@ -28,6 +33,9 @@ public class SunBurnHandler extends BaseHandler {
     protected boolean register() {
         if (task == null || task.isCancelled()) {
             super.register();
+            sunBurnDamage = plugin.getConfigProvider().getSunBurnDamage();
+            sunBurnHelmetProtection = configProvider.isSunBurnHelmetProtection();
+            sunBurnHelmetDurabilityLoss = configProvider.getSunBurnHelmetDurabilityLoss();
             activateTask();
             return true;
         }
@@ -64,14 +72,31 @@ public class SunBurnHandler extends BaseHandler {
     private void checkSunBurn(Player player) {
         World world = player.getWorld();
         if (world.isDayTime() && world.getHighestBlockAt(player.getLocation()).getY() <= player.getLocation().getY() && !player.isInWaterOrRain()) {
-            player.setVisualFire(true);
-            int sunburnDamage = plugin.getConfigProvider().getSunBurnDamage();
-            if (sunburnDamage > 0) {
-                player.damage(sunburnDamage);
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.damage(sunburnDamage), 20L);
+            ItemStack helmet = player.getInventory().getHelmet();
+            if (helmet != null && sunBurnHelmetProtection) {
+                Damageable itemMeta = (Damageable) helmet.getItemMeta();
+                itemMeta.setDamage(itemMeta.getDamage() + sunBurnHelmetDurabilityLoss);
+                helmet.setItemMeta(itemMeta);
+                if (helmet.getType().getMaxDurability() <= itemMeta.getDamage()) {
+                    player.getInventory().setHelmet(null);
+                    player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1f, 1f);
+                } else {
+                    player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXTINGUISH_FIRE, 1f, 1f);
+                    player.setVisualFire(false);
+                }
+                return;
             }
+            damageZombie(player);
         } else {
             player.setVisualFire(false);
+        }
+    }
+
+    private void damageZombie(Player player) {
+        player.setVisualFire(true);
+        if (sunBurnDamage > 0) {
+            player.damage(sunBurnDamage);
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.damage(sunBurnDamage), 20L);
         }
     }
 }

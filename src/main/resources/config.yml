@@ -114,6 +114,11 @@ features:
     at_night: true
     # Damage in half-hearts that zombie players take from sunlight.
     damage: 4
+    protection:
+      # If true, equipped helmets will protect zombies from sunlight damage
+      helmet: true
+      # Amount of durability helmets lose every 2 seconds when exposed to sunlight
+      durability_loss: 5
   hunger:
     # If true, zombie players' attacks will give hunger effect to human players.
     enabled: true

@@ -12,13 +12,13 @@ public class ConfigProvider extends BaseConfig {
     private String language;
     private boolean debugConsole, debugFile;
     private boolean broadcastDay, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
-    private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
+    private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, sunBurnHelmetProtection, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
     private boolean voiceChatBlockGroupsCreation, voiceChatPersistentGroups, voiceChatJoinOnJoin, voiceChatJoinOnDeath, voiceChatJoinTeamOnly, friendlyFireZombies, friendlyFireHumans;
     private int borderInitialRadius, borderCenterX, borderCenterZ;
     private boolean borderShrinkEnabled;
     private int borderShrinkStartDay, borderShrinkInterval, borderShrinkAmount, borderShrinkDuration, borderShrinkMinRadius;
     private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
-    private int dropFleshAmount, invulnerability, sunBurnDamage, hungerDuration, zombieCompassCooldown;
+    private int dropFleshAmount, invulnerability, sunBurnDamage, sunBurnHelmetDurabilityLoss, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
     private List<Map<?, ?>> effectsList;
     private List<?> restrictedCommandsList;
@@ -74,6 +74,8 @@ public class ConfigProvider extends BaseConfig {
         sunBurnDay = config.getInt("features.sun_burn.start_day");
         sunBurnAtNight = config.getBoolean("features.sun_burn.at_night");
         sunBurnDamage = config.getInt("features.sun_burn.damage");
+        sunBurnHelmetProtection = config.getBoolean("features.sun_burn.protection.helmet");
+        sunBurnHelmetDurabilityLoss = config.getInt("features.sun_burn.protection.durability_loss");
 
         hunger = config.getBoolean("features.hunger.enabled");
         hungerDay = config.getInt("features.hunger.start_day");
@@ -219,6 +221,12 @@ public class ConfigProvider extends BaseConfig {
     }
     public int getSunBurnDamage() {
         return sunBurnDamage;
+    }
+    public boolean isSunBurnHelmetProtection() {
+        return sunBurnHelmetProtection;
+    }
+    public int getSunBurnHelmetDurabilityLoss() {
+        return sunBurnHelmetDurabilityLoss;
     }
 
     public boolean isHunger() {
