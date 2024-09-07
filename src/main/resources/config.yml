@@ -4,7 +4,7 @@
 # Available options are located in the 'languages' folder within the plugin directory.
 language: en_US
 
-# If true, a title will be displayed to all players when a new day begins
+# If true, a title will be displayed to all players when a new day begins.
 broadcast_day: true
 
 player:
@@ -22,7 +22,7 @@ player:
     drop_flesh: true
     # The amount of rotten flesh dropped.
     amount: 4
-  # Player's invulnerability after respawn
+  # Player's invulnerability after respawn.
   # Duration in ticks (0 to disable).
   invulnerability: 60
   # Effects applied to zombie players.
@@ -43,44 +43,51 @@ player:
     - sr
     - skin
     - skins
+
+teams:
   # You need Simple Voice Chat plugin for these features to work.
   voicechat:
-    # If true, two voice groups "Humans" and "Zombies" will be created when the server starts
+    # If true, two voice groups "Humans" and "Zombies" will be created when the server starts.
+    # All voicechat options won't work unless persistent_groups is true.
     # Changing this option requires a server restart.
     persistent_groups: true
-    # If true, players will not be able to create groups
-    # Works only if persistent_groups is true
+    # If true, players will not be able to create groups.
     block_groups_creation: true
-    # Works only if persistent_groups is true
     join:
-      # If true, a human player will automatically join the "Humans" group upon entering the server
+      # If true, a human player will automatically join the "Humans" group upon entering the server.
       on_join: true
-      # If true, a player will automatically join the "Zombies" group upon every death
+      # If true, a player will automatically join the "Zombies" group upon every death.
       on_death: true
-      # If true, humans cannot join "Zombies" group and zombies cannot join "Humans" group
+      # If true, humans cannot join "Zombies" group and zombies cannot join "Humans" group.
       team_only: true
+  # Changing this options requires a server restart.
+  friendly_fire:
+    # If true, zombies could damage other zombies.
+    zombies: false
+    # If true, humans could damage other humans.
+    humans: false
 
 world:
-  # Initial world border will be set when using /ez start
+  # Initial world border will be set when using /ez start.
   border:
-    # Initial radius of the world border in blocks (set 0 to disable)
+    # Initial radius of the world border in blocks (0 to disable).
     initial_radius: 500
-    # X coordinate of the world border center
+    # X coordinate of the world border center.
     center_x: 0
-    # Z coordinate of the world border center
+    # Z coordinate of the world border center.
     center_z: 0
     shrink:
-      # If true, the world border will shrink over time
+      # If true, the world border will shrink over time.
       enabled: false
-      # The day on which the border starts shrinking
+      # The day on which the border starts shrinking.
       start_day: 10
-      # Interval between each shrink in seconds
+      # Interval between each shrink in seconds.
       interval: 1200
-      # Amount of blocks to shrink the radius by each interval
+      # Amount of blocks to shrink the radius by each interval.
       amount: 50
-      # Duration of the shrinking process in seconds
+      # Duration of the shrinking process in seconds.
       duration: 300
-      # Minimum radius the border can shrink to
+      # Minimum radius the border can shrink to.
       min_radius: 250
 
 features:

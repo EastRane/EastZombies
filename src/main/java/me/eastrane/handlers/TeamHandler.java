@@ -37,7 +37,7 @@ public class TeamHandler extends BaseHandler {
         }
         zombieTeam.setDisplayName(plugin.getLanguageProvider().getTranslation("main.zombies_team_name"));
         zombieTeam.setColor(ChatColor.DARK_GREEN);
-        zombieTeam.setAllowFriendlyFire(false);
+        zombieTeam.setAllowFriendlyFire(plugin.getConfigProvider().isFriendlyFireZombies());
     }
 
     public void removeZombie(UUID player) {

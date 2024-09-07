@@ -21,8 +21,9 @@ public class ListenerManager {
         registerListener(new EffectChangeListener(plugin, true));
         registerListener(new EntityTargetListener(plugin, true));
         registerListener(new ItemConsumeListener(plugin, true));
-        registerListener(new EntityDamageByEntityListener(plugin, true));
+        registerListener(new HumanDamageByZombieListener(plugin, true));
         registerListener(new PlayerInteractListener(plugin, true));
+        registerListener(new HumanDamageByHumanListener(plugin, false));
     }
 
     private void registerListener(BaseListener listener) {

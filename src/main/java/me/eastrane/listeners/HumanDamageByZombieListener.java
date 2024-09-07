@@ -12,11 +12,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class EntityDamageByEntityListener extends BaseListener implements Listener {
+public class HumanDamageByZombieListener extends BaseListener implements Listener {
     private ConfigProvider configProvider;
     private final BaseStorage baseStorage;
 
-    public EntityDamageByEntityListener(EastZombies plugin, boolean isReloadable) {
+    public HumanDamageByZombieListener(EastZombies plugin, boolean isReloadable) {
         super(plugin, isReloadable);
         baseStorage = plugin.getBaseStorage();
     }
