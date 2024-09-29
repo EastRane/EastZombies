@@ -2,7 +2,7 @@ package me.eastrane;
 
 import me.eastrane.commands.MainCommand;
 import me.eastrane.handlers.core.HandlerManager;
-import me.eastrane.items.core.CooldownManager;
+import me.eastrane.utilities.CooldownManager;
 import me.eastrane.items.core.ItemManager;
 import me.eastrane.handlers.*;
 import me.eastrane.listeners.core.ListenerManager;
