@@ -1,7 +1,7 @@
 package me.eastrane.listeners;
 
 import me.eastrane.EastZombies;
-import me.eastrane.items.core.CooldownManager;
+import me.eastrane.utilities.CooldownManager;
 import me.eastrane.items.core.CustomItemType;
 import me.eastrane.items.core.ItemManager;
 import me.eastrane.listeners.core.BaseListener;

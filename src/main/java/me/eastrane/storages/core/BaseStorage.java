@@ -10,7 +10,7 @@ import java.util.*;
 public abstract class BaseStorage {
     protected final EastZombies plugin;
     protected final DebugProvider debugProvider;
-    protected final Map<UUID, String> zombies = new LinkedHashMap<>();
+    protected final Map<UUID, ZombieData> zombies = new LinkedHashMap<>();
 
     public BaseStorage(EastZombies plugin) {
         this.plugin = plugin;
@@ -22,12 +22,14 @@ public abstract class BaseStorage {
      */
     public abstract void loadStorage();
 
+    public abstract  void saveStorage();
+
     /**
      * Adds a player to the zombie player data and saves the changes.
      *
      * @param player The player to add as a zombie.
      */
-    public abstract void addZombie(Player player);
+    public abstract void addZombie(Player player, String zombieType);
 
     /**
      * Removes a player from the zombie player data and saves the changes.
@@ -54,5 +56,17 @@ public abstract class BaseStorage {
      */
     public boolean isZombie(OfflinePlayer offlinePlayer) {
         return zombies.containsKey(offlinePlayer.getUniqueId());
+    }
+
+    public Map<UUID, ZombieData> getZombies() {
+        return zombies;
+    }
+
+    public ZombieData getZombieData(Player player) {
+        return zombies.get(player.getUniqueId());
+    }
+
+    public String getZombieType(Player player) {
+        return zombies.get(player.getUniqueId()).getZombieType();
     }
 }

@@ -2,6 +2,7 @@ package me.eastrane.utilities;
 
 import me.eastrane.EastZombies;
 import me.eastrane.storages.core.BaseStorage;
+import me.eastrane.storages.core.ZombieData;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -18,8 +19,8 @@ public class PlayerManager {
         baseStorage = plugin.getBaseStorage();
     }
 
-    public void addZombie(Player player) {
-        plugin.getBaseStorage().addZombie(player);
+    public void addZombie(Player player, String zombieType) {
+        plugin.getBaseStorage().addZombie(player, zombieType);
         plugin.getTeamHandler().addZombie(player.getUniqueId());
         if (configProvider.isChangeSkin() && plugin.getSkinsHandler() != null) {
             try {
@@ -54,6 +55,13 @@ public class PlayerManager {
         if (plugin.getConfigProvider().isVoicePersistentGroups() && plugin.getVoiceHandler() != null) {
             plugin.getVoiceHandler().connectToTeamGroup(plugin.getServer().getPlayer(player));
         }
+    }
+
+    public void setZombieType(Player player, String zombieType) {
+        ZombieData zombieData = baseStorage.getZombieData(player);
+        if (zombieData == null) return;
+        zombieData.setZombieType(zombieType);
+        baseStorage.saveStorage();
     }
 
 }

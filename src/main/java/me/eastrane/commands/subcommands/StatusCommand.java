@@ -49,7 +49,7 @@ public class StatusCommand extends SubCommand {
         boolean isTarget = listenerManager.getListener("EntityTargetListener").isRegistered();
         boolean isFlesh = listenerManager.getListener("ItemConsumeListener").isRegistered();
         boolean isSunBurn = handlerManager.getHandler("SunBurnHandler").isRegistered();
-        boolean isHunger = listenerManager.getListener("EntityDamageByEntityListener").isRegistered();
+        boolean isHunger = listenerManager.getListener("HumanDamageByZombie").isRegistered();
         boolean isGolems = handlerManager.getHandler("IronGolemAttackHandler").isRegistered();
         boolean isZombieCompass = itemManager.getCustomItem(CustomItemType.ZOMBIE_COMPASS).isRegistered();
 

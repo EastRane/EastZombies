@@ -2,6 +2,7 @@ package me.eastrane.storages;
 
 import me.eastrane.EastZombies;
 import me.eastrane.storages.core.BaseStorage;
+import me.eastrane.storages.core.ZombieData;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -32,11 +33,13 @@ public class YamlStorage extends BaseStorage {
         dataConfig = YamlConfiguration.loadConfiguration(dataFile);
         zombies.clear();
         if (dataConfig.contains("players")) {
-            List<String> playerNames = dataConfig.getStringList("players");
-            for (String uuidString : playerNames) {
+            List<Map<?, ?>> playerDataList = dataConfig.getMapList("players");
+            for (Map<?, ?> playerData : playerDataList) {
+                String uuidString = (String) playerData.get("uuid");
                 UUID player = UUID.fromString(uuidString);
-                // In the future there will be ZombieData with additional info instead of null
-                zombies.put(player, null);
+                String zombieType = (String) playerData.get("type");
+                ZombieData zombieData = new ZombieData(zombieType);
+                zombies.put(player, zombieData);
             }
             if (!zombies.isEmpty()) {
                 debugProvider.sendInfo(zombies.size() + " zombies were loaded from YAML storage.", true);
@@ -48,11 +51,19 @@ public class YamlStorage extends BaseStorage {
      * Saves the zombie player data to the data file.
      */
     public void saveStorage() {
-        List<String> uuidStrings = new ArrayList<>();
+        List<Map<String, Object>> playerDataList = new ArrayList<>();
         for (UUID uuid : zombies.keySet()) {
-            uuidStrings.add(uuid.toString());
+            Map<String, Object> playerData = new HashMap<>();
+            playerData.put("uuid", uuid.toString());
+            ZombieData zombieData = zombies.get(uuid);
+            if (zombieData != null) {
+                playerData.put("type", zombieData.getZombieType());
+            } else {
+                playerData.put("type", "none");
+            }
+            playerDataList.add(playerData);
         }
-        dataConfig.set("players", uuidStrings);
+        dataConfig.set("players", playerDataList);
         try {
             dataConfig.save(dataFile);
             debugProvider.sendInfo("YAML storage was saved successfully.");
@@ -66,9 +77,10 @@ public class YamlStorage extends BaseStorage {
      *
      * @param player The player to add as a zombie.
      */
-    public void addZombie(Player player) {
+    public void addZombie(Player player, String zombieType) {
         debugProvider.sendInfo(player.getName() + " was added to YAML storage as a zombie.");
-        zombies.put(player.getUniqueId(), null);
+        ZombieData zombieData = new ZombieData(zombieType);
+        zombies.put(player.getUniqueId(), zombieData);
         saveStorage();
     }
 

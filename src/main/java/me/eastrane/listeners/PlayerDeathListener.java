@@ -65,7 +65,7 @@ public class PlayerDeathListener extends BaseListener implements Listener {
                 player.getWorld().dropItemNaturally(event.getPlayer().getLocation(), new ItemStack(Material.ROTTEN_FLESH, configProvider.getDropFleshAmount()));
             }
         }
-        plugin.getPlayerManager().addZombie(player);
+        plugin.getPlayerManager().addZombie(player, "none");
     }
 
     @EventHandler
