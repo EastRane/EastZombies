@@ -19,7 +19,7 @@ public class ConfigProvider extends BaseConfig {
     private boolean borderShrinkEnabled;
     private int borderShrinkStartDay, borderShrinkInterval, borderShrinkAmount, borderShrinkDuration, borderShrinkMinRadius;
     private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
-    private int dropFleshAmount, respawnInvulnerability, firstJoinInvulnerability, sunBurnDamage, sunBurnHelmetDurabilityLoss, hungerDuration, zombieCompassCooldown;
+    private int dropFleshAmount, respawnInvulnerability, startInvulnerability, sunBurnDamage, sunBurnHelmetDurabilityLoss, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
     private List<Map<?, ?>> effectsList;
     private List<?> restrictedCommandsList;
@@ -40,7 +40,7 @@ public class ConfigProvider extends BaseConfig {
         dropFleshAmount = config.getInt("player.flesh.amount");
         resetRespawnOnFirstDeath = config.getBoolean("player.reset_respawn_on_first_death");
         respawnInvulnerability = config.getInt("player.respawn_invulnerability");
-        firstJoinInvulnerability = config.getInt("player.first_join_invulnerability");
+        startInvulnerability = config.getInt("player.start_invulnerability");
         effects = config.getBoolean("player.effects.enabled");
         effectsList = config.getMapList("player.effects.list");
         restrictedCommandsList = config.getList("player.restricted_commands");
@@ -137,8 +137,8 @@ public class ConfigProvider extends BaseConfig {
     public int getRespawnInvulnerability() {
         return respawnInvulnerability;
     }
-    public int getFirstJoinInvulnerability() {
-        return firstJoinInvulnerability;
+    public int getStartInvulnerability() {
+        return startInvulnerability;
     }
     public boolean isEffects() {
         return effects;

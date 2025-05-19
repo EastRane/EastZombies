@@ -58,7 +58,13 @@ public class StartCommand extends SubCommand {
         }
         if (plugin.getConfigProvider().isVoicePersistentGroups() && plugin.getVoiceHandler() != null) {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                plugin.getVoiceHandler().connectToTeamGroup(plugin.getServer().getPlayer(player.getUniqueId()));
+                plugin.getVoiceHandler().connectToTeamGroup(player);
+            }
+        }
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            int startInvulnerability = plugin.getConfigProvider().getStartInvulnerability();
+            if (startInvulnerability > 0) {
+                player.setNoDamageTicks(startInvulnerability);
             }
         }
         plugin.getFeaturesManager().reactivateEvents();

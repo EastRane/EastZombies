@@ -23,10 +23,6 @@ public class JoinQuitListener extends BaseListener implements Listener {
         if (!plugin.getBaseStorage().isZombie(player)) {
             plugin.getEffectsHandler().clearEffects(player);
             player.setVisualFire(false);
-            int firstJoinInvulnerability = plugin.getConfigProvider().getFirstJoinInvulnerability();
-            if (player.getFirstPlayed() == 0 && firstJoinInvulnerability > 0) {
-                player.setNoDamageTicks(firstJoinInvulnerability);
-            }
         } else {
             plugin.getEffectsHandler().giveZombieEffects(player);
         }
