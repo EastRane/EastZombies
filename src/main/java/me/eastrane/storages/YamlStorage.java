@@ -53,7 +53,7 @@ public class YamlStorage extends BaseStorage {
     public void saveStorage() {
         List<Map<String, Object>> playerDataList = new ArrayList<>();
         for (UUID uuid : zombies.keySet()) {
-            Map<String, Object> playerData = new HashMap<>();
+            Map<String, Object> playerData = new LinkedHashMap<>();
             playerData.put("uuid", uuid.toString());
             ZombieData zombieData = zombies.get(uuid);
             if (zombieData != null) {
