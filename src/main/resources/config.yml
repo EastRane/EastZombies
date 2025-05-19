@@ -17,6 +17,13 @@ player:
   # If true, players will respawn at their death location when they first die and become a zombie.
   # Also, their bed respawn location (set as a human) will be reset.
   reset_respawn_on_first_death: true
+  # For those who want zombies to respawn at specific location instead of their death location.
+  # Only works with reset_respawn_on_first_death enabled as well.
+  # -1 to disable
+  zombie_respawn_location:
+    x: -1
+    y: -1
+    z: -1
   flesh:
     # If true, zombie players will drop rotten flesh upon death.
     drop_flesh: true
@@ -121,7 +128,7 @@ features:
       # If true, equipped helmets will protect zombies from sunlight damage
       helmet: true
       # Amount of durability helmets lose every 2 seconds when exposed to sunlight
-      durability_loss: 5
+      durability_loss: 10
   hunger:
     # If true, zombie players' attacks will give hunger effect to human players.
     enabled: true
@@ -140,6 +147,7 @@ features:
     at_night: false
   zombie_compass:
     # If true, zombie compass recipe will be available.
+    # This compass lets zombies see nearest human's location.
     enabled: true
     # The day on which this feature activates.
     start_day: 13

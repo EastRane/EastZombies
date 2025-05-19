@@ -14,6 +14,7 @@ public class ConfigProvider extends BaseConfig {
     private boolean broadcastDay, dropHead, changeSkin, dropFlesh, resetRespawnOnFirstDeath, effects;
     private boolean target, targetAtNight, flesh, fleshAtNight, sunBurn, sunBurnAtNight, sunBurnHelmetProtection, hunger, hungerAtNight, golems, golemsAtNight, zombieCompass, zombieCompassAtNight;
     private boolean voiceChatBlockGroupsCreation, voiceChatPersistentGroups, voiceChatJoinOnJoin, voiceChatJoinOnDeath, voiceChatJoinTeamOnly, friendlyFireZombies, friendlyFireHumans;
+    private int zombieRespawnLocationX, zombieRespawnLocationY, zombieRespawnLocationZ;
     private int borderInitialRadius, borderCenterX, borderCenterZ;
     private boolean borderShrinkEnabled;
     private int borderShrinkStartDay, borderShrinkInterval, borderShrinkAmount, borderShrinkDuration, borderShrinkMinRadius;
@@ -39,6 +40,7 @@ public class ConfigProvider extends BaseConfig {
         dropFleshAmount = config.getInt("player.flesh.amount");
         resetRespawnOnFirstDeath = config.getBoolean("player.reset_respawn_on_first_death");
         respawnInvulnerability = config.getInt("player.respawn_invulnerability");
+        firstJoinInvulnerability = config.getInt("player.first_join_invulnerability");
         effects = config.getBoolean("player.effects.enabled");
         effectsList = config.getMapList("player.effects.list");
         restrictedCommandsList = config.getList("player.restricted_commands");
@@ -51,6 +53,10 @@ public class ConfigProvider extends BaseConfig {
 
         friendlyFireZombies = config.getBoolean("teams.friendly_fire.zombies");
         friendlyFireHumans = config.getBoolean("teams.friendly_fire.humans");
+
+        zombieRespawnLocationX = config.getInt("player.zombie_respawn_location.x");
+        zombieRespawnLocationY = config.getInt("player.zombie_respawn_location.y");
+        zombieRespawnLocationZ = config.getInt("player.zombie_respawn_location.z");
 
         borderInitialRadius = config.getInt("world.border.initial_radius");
         borderCenterX = config.getInt("world.border.center_x");
@@ -163,6 +169,16 @@ public class ConfigProvider extends BaseConfig {
     }
     public boolean isFriendlyFireHumans() {
         return friendlyFireHumans;
+    }
+
+    public int getZombieRespawnLocationX() {
+        return zombieRespawnLocationX;
+    }
+    public int getZombieRespawnLocationY() {
+        return zombieRespawnLocationY;
+    }
+    public int getZombieRespawnLocationZ() {
+        return zombieRespawnLocationZ;
     }
 
     public int getBorderInitialRadius() {

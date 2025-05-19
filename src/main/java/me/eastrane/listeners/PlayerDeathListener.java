@@ -72,15 +72,22 @@ public class PlayerDeathListener extends BaseListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
-        if (configProvider.isResetRespawnOnFirstDeath() && baseStorage.isZombie(player) && deathLocations.containsKey(playerId)) {
-            Location deathLocation = deathLocations.get(playerId);
-            // This method doesn't exist before 1.20
-            event.setRespawnLocation(deathLocation);
-            deathLocations.remove(playerId);
-            player.setRespawnLocation(null);
+        if (configProvider.isResetRespawnOnFirstDeath() && baseStorage.isZombie(player)) {
+            if (deathLocations.containsKey(playerId)) {
+                Location deathLocation = deathLocations.get(playerId);
+                // This method doesn't exist before 1.20
+                event.setRespawnLocation(deathLocation);
+                deathLocations.remove(playerId);
+
+                int x = configProvider.getZombieRespawnLocationX();
+                int y = configProvider.getZombieRespawnLocationY();
+                int z = configProvider.getZombieRespawnLocationZ();
+                if (x != -1 && y != -1 && z != -1) {
+                    event.setRespawnLocation(new Location(deathLocation.getWorld(), x, y, z));
+                }
+            }
             plugin.getDebugProvider().sendInfo(player.getName() + " was respawned at his death location because he has just turned into a zombie.");
         }
-
-        player.setNoDamageTicks(configProvider.getInvulnerability());
+        player.setNoDamageTicks(configProvider.getRespawnInvulnerability());
     }
 }
