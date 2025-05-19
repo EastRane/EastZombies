@@ -24,8 +24,8 @@ You can find everything about the plugin on the [Wiki](https://eastrane.github.i
 
 ## Requirements
 
-- Minecraft server software: Paper (or its fork) 1.20 or higher
-- Java: Version 17 or higher
+- Minecraft server software: Paper (or its fork) 1.21.1 or higher
+- Java: Version 21 or higher
 
 ## Contributing
 

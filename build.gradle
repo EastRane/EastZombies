@@ -1,11 +1,11 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '8.3.6'
 }
 
 group = 'me.eastrane'
-version = '1.0.0'
+version = "${version}"
 
 idea {
     module {
@@ -34,20 +34,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
-    implementation "org.bstats:bstats-bukkit:3.0.2"
-    compileOnly "net.skinsrestorer:skinsrestorer-api:15.4.0"
-    compileOnly "de.maxhenkel.voicechat:voicechat-api:2.5.0"
+    compileOnly("io.papermc.paper:paper-api:${paperApiVersion}")
+    implementation("org.bstats:bstats-bukkit:${bstatsVersion}")
+    compileOnly("net.skinsrestorer:skinsrestorer-api:${skinsrestorerApiVersion}")
+    compileOnly("de.maxhenkel.voicechat:voicechat-api:${voicechatApiVersion}")
 }
 
-shadowJar {
-    dependencies {
-        relocate("org.bstats","me.eastrane.dependencies.bstats")
-    }
-    archiveFileName = "${project.name}-${project.version}.jar"
-}
-
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
@@ -58,10 +51,19 @@ java {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        options.release = targetJavaVersion
-    }
+    options.release = targetJavaVersion
 }
+
+shadowJar {
+    dependencies {
+        relocate("org.bstats", "me.eastrane.dependencies.bstats")
+    }
+
+    //destinationDirectory = file("D:\\minecraft\\admin\\localhost\\plugins")
+    archiveFileName = "${project.name}-${project.version}.jar"
+}
+
+tasks.build.dependsOn tasks.shadowJar
 
 processResources {
     def props = [version: version]
