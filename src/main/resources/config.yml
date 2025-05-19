@@ -24,7 +24,10 @@ player:
     amount: 4
   # Player's invulnerability after respawn.
   # Duration in ticks (0 to disable).
-  invulnerability: 60
+  respawn_invulnerability: 60
+  # Player's invulnerability after the first join on the server.
+  # Duration in ticks (0 to disable).
+  first_join_invulnerability: 6000
   # Effects applied to zombie players.
   effects:
     enabled: true

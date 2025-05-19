@@ -2,6 +2,7 @@ package me.eastrane.listeners;
 
 import me.eastrane.EastZombies;
 import me.eastrane.listeners.core.BaseListener;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -18,11 +19,16 @@ public class JoinQuitListener extends BaseListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!plugin.getBaseStorage().isZombie(event.getPlayer())) {
-            plugin.getEffectsHandler().clearEffects(event.getPlayer());
-            event.getPlayer().setVisualFire(false);
+        Player player = event.getPlayer();
+        if (!plugin.getBaseStorage().isZombie(player)) {
+            plugin.getEffectsHandler().clearEffects(player);
+            player.setVisualFire(false);
+            int firstJoinInvulnerability = plugin.getConfigProvider().getFirstJoinInvulnerability();
+            if (player.getFirstPlayed() == 0 && firstJoinInvulnerability > 0) {
+                player.setNoDamageTicks(firstJoinInvulnerability);
+            }
         } else {
-            plugin.getEffectsHandler().giveZombieEffects(event.getPlayer());
+            plugin.getEffectsHandler().giveZombieEffects(player);
         }
     }
 }
