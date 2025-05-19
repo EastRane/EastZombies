@@ -18,6 +18,7 @@ public class ConfigProvider extends BaseConfig {
     private int borderInitialRadius, borderCenterX, borderCenterZ;
     private boolean borderShrinkEnabled;
     private int borderShrinkStartDay, borderShrinkInterval, borderShrinkAmount, borderShrinkDuration, borderShrinkMinRadius;
+    private boolean lightning;
     private int targetDay, fleshDay, sunBurnDay, hungerDay, golemsDay, zombieCompassDay;
     private int dropFleshAmount, respawnInvulnerability, startInvulnerability, sunBurnDamage, sunBurnHelmetDurabilityLoss, hungerDuration, zombieCompassCooldown;
     private List<String> zombieCompassRecipe;
@@ -67,6 +68,8 @@ public class ConfigProvider extends BaseConfig {
         borderShrinkAmount = config.getInt("world.border.shrink.amount");
         borderShrinkDuration = config.getInt("world.border.shrink.duration");
         borderShrinkMinRadius = config.getInt("world.border.shrink.min_radius");
+
+        lightning = config.getBoolean("world.lightning");
 
         target = config.getBoolean("features.target.enabled");
         targetDay = config.getInt("features.target.start_day");
@@ -207,6 +210,10 @@ public class ConfigProvider extends BaseConfig {
     }
     public int getBorderShrinkMinRadius() {
         return borderShrinkMinRadius;
+    }
+
+    public boolean isLightning() {
+        return lightning;
     }
 
     public boolean isTarget() {

@@ -99,6 +99,8 @@ world:
       duration: 300
       # Minimum radius the border can shrink to.
       min_radius: 250
+  # If true, a lightning will strike at a place where player became a zombie
+  lightning: true
 
 features:
   target:

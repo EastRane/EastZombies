@@ -56,6 +56,9 @@ public class PlayerDeathListener extends BaseListener implements Listener {
             if (configProvider.isResetRespawnOnFirstDeath()) {
                 deathLocations.put(player.getUniqueId(), player.getLocation());
             }
+            if (configProvider.isLightning()) {
+                player.getLocation().getWorld().strikeLightning(player.getLocation());
+            }
             debugProvider.sendInfo(player.getName() + " has just died and become a zombie.");
             languageProvider.broadcastMessage("broadcasts.player_turned_zombie", player.getName());
         } else {
