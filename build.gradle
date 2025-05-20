@@ -56,7 +56,7 @@ tasks.withType(JavaCompile).configureEach {
 
 shadowJar {
     dependencies {
-        relocate("org.bstats", "me.eastrane.dependencies.bstats")
+        relocate("org.bstats", "me.eastrane.eastzombies.dependencies.bstats")
     }
 
     //destinationDirectory = file("D:\\minecraft\\admin\\localhost\\plugins")

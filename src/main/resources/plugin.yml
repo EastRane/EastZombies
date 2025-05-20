@@ -1,6 +1,6 @@
 name: EastZombies
 version: '${version}'
-main: me.eastrane.EastZombies
+main: me.eastrane.eastzombies.EastZombies
 api-version: '1.21.1'
 author: EastRane
 softdepend:

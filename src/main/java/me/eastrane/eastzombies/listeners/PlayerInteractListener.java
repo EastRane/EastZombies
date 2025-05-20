@@ -1,0 +1,103 @@
+package me.eastrane.eastzombies.listeners;
+
+import me.eastrane.eastzombies.EastZombies;
+import me.eastrane.eastzombies.utilities.CooldownManager;
+import me.eastrane.eastzombies.items.core.CustomItemType;
+import me.eastrane.eastzombies.items.core.ItemManager;
+import me.eastrane.eastzombies.listeners.core.BaseListener;
+import me.eastrane.eastzombies.utilities.ConfigProvider;
+import me.eastrane.eastzombies.utilities.LanguageProvider;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.CompassMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+
+public class PlayerInteractListener extends BaseListener implements Listener {
+    private final ConfigProvider configProvider;
+    private final LanguageProvider languageProvider;
+    private final ItemManager itemManager;
+    private final CooldownManager cooldownManager;
+    private final String zombieCompassIdentifier;
+
+    public PlayerInteractListener(EastZombies plugin, boolean isReloadable) {
+        super(plugin, isReloadable);
+        this.configProvider = plugin.getConfigProvider();
+        this.languageProvider = plugin.getLanguageProvider();
+        this.itemManager = plugin.getItemManager();
+        this.cooldownManager = plugin.getCooldownManager();
+        zombieCompassIdentifier = itemManager.getCustomItem(CustomItemType.ZOMBIE_COMPASS).getIdentifier();
+        cooldownManager.registerCooldown(zombieCompassIdentifier, configProvider.getZombieCompassCooldown());
+    }
+
+    @Override
+    protected boolean shouldRegister(long[] worldTime) {
+        return true;
+    }
+
+    @EventHandler
+    public void onCompassInteract(PlayerInteractEvent event) {
+        if (event.getAction().isRightClick() && event.getItem() != null && plugin.getBaseStorage().isZombie(event.getPlayer())) {
+            ItemStack item = event.getItem();
+            if (isZombieCompass(item) && plugin.getItemManager().getCustomItem(CustomItemType.ZOMBIE_COMPASS).isRegistered()) {
+                Player player = event.getPlayer();
+                if (!cooldownManager.isInCooldown(zombieCompassIdentifier, player)) {
+                    handleCompassUse(player, item);
+                }
+            }
+        }
+    }
+
+    private boolean isZombieCompass(ItemStack item) {
+        if (item.getType() == Material.COMPASS) {
+            ItemMeta meta = item.getItemMeta();
+            if (meta != null) {
+                String persistentString = meta.getPersistentDataContainer().get(itemManager.getCustomItem(CustomItemType.ZOMBIE_COMPASS).getKey(), PersistentDataType.STRING);
+                return zombieCompassIdentifier.equals(persistentString);
+            }
+        }
+        return false;
+    }
+
+    private void handleCompassUse(Player player, ItemStack item) {
+        Player nearestPlayer = getNearestPlayer(player);
+        cooldownManager.setCooldown(zombieCompassIdentifier, player);
+        if (nearestPlayer != null) {
+            updateCompassTarget(player, item, nearestPlayer);
+        } else {
+            languageProvider.sendMessage(player, "buffs.zombie_compass.no_result");
+        }
+    }
+
+    private void updateCompassTarget(Player player, ItemStack item, Player target) {
+        Location targetLocation = target.getLocation();
+        CompassMeta compassMeta = (CompassMeta) item.getItemMeta();
+        compassMeta.setLodestone(targetLocation);
+        compassMeta.setLodestoneTracked(false);
+        item.setItemMeta(compassMeta);
+        languageProvider.sendMessage(player, "buffs.zombie_compass.tracked", target.getName(), (int) target.getLocation().distance(player.getLocation()));
+    }
+
+    private Player getNearestPlayer(Player player) {
+        Player nearestPlayer = null;
+        double nearestDistance = Double.MAX_VALUE;
+        Location playerLocation = player.getLocation();
+
+        for (Player target : Bukkit.getServer().getOnlinePlayers()) {
+            if (!target.equals(player) && !plugin.getBaseStorage().isZombie(target)) {
+                double distance = target.getLocation().distance(playerLocation);
+                if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestPlayer = target;
+                }
+            }
+        }
+        return nearestPlayer;
+    }
+}
